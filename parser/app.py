@@ -1,18 +1,19 @@
 from flask import jsonify
+import requests
 
 
 from ast_analysis.ast_mock_data import vulnerability_pattern, mock_submission_ast1 
 from ast_analysis.ast_mock_data import mock_submission_ast2
 from ast_analysis.ast_comparer import compare_ast
 from ast_analysis.ast_simplfy import simplify_ast, fetch_ast
-from settings import app
+from settings import app, db
 
 
 
 @app.cli.command("populate_db")
 def fetch_ast():
     """Fetches AST and populates the database."""
-    url = "http://localhost:8080//processing-service/process-code/rust"
+    url = "http://localhost:8080/processing-service/process-code/rust"
 
     try:
         response = requests.get(url)
@@ -20,8 +21,8 @@ def fetch_ast():
         if response.status_code == 200:
             data = response.json()
             print("Data:", data)
-            db.session.add(data)
-            db.session.commit()
+            # db.session.add(data)
+            # db.session.commit()
 
         else:
             print(f"Failed to fetch AST: {response.status_code}")
