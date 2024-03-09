@@ -14,7 +14,6 @@ const highlightStyle = Decoration.line({
     backgroundColor: "#ffcccc", // A light red background color
 });
 import { Range, RangeSet } from "@codemirror/rangeset";
-import { on } from "events";
 
 export default function Home() {
     const languages = [
@@ -45,13 +44,24 @@ fn main() {
         set_rust_code(val);
     }, []);
 
-    const [percentage, setPercentage] = useState(0);
+    const [percentage, setPercentage] = useState(
+        Math.floor(Math.random() * 101)
+    );
 
-    const vulnerabilities = [
-        "Reentrance Attacks",
-        "Integer Overflow",
-        "Integer Underflow",
-    ];
+    function applyDecorations(editor) {
+        // Highlight line number 10
+        let line = 10;
+        let lineStart = editor.state.doc.line(line).from;
+        let lineEnd = editor.state.doc.line(line).to;
+
+        let decoration = EditorView.lineHighlight({
+            class: "highlighted-line",
+        });
+        let range = new Range(lineStart, lineEnd);
+        let rangeSet = RangeSet.of(range, decoration);
+
+        return { decorations: rangeSet };
+    }
 
     return (
         <div>
@@ -164,21 +174,6 @@ fn main() {
                         >
                             Assess vulnerabilities
                         </button>
-
-                        {showCodeVulnerability ? (
-                            <ul className="flex flex-col justify-center items-center">
-                                {vulnerabilities.map((vulnerability, index) => (
-                                    <li
-                                        key={index}
-                                        className="text-white text-lg font-bold p-2"
-                                    >
-                                        {vulnerability}
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            ""
-                        )}
                     </div>
 
           {/* Analyze button centered vertically */}
@@ -204,9 +199,7 @@ fn main() {
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
-                            onClick={() =>
-                                setPercentage(Math.floor(Math.random() * 101))
-                            }
+                            onClick={() => setPercentage(Math.floor(Math.random() * 101))}
                         >
                             Analyze
                         </button>
@@ -228,6 +221,17 @@ fn main() {
                             extensions={[rust()]}
                             onChange={onChange}
                             basicSetup={true}
+                            onUpdate={(editor) => {
+                                if (showCodeVulnerability) {
+                                    let update = applyDecorations(editor);
+                                    editor.dispatch({
+                                        effects:
+                                            EditorView.updateListener.of(
+                                                update
+                                            ),
+                                    });
+                                }
+                            }}
                         />
                     </div>
                 </div>
