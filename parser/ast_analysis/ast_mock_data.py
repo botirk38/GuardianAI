@@ -212,5 +212,5 @@ rawdata = {"children":[{"children":[{"children":[{"name":"#"},{"name":"["},{"chi
 
 # A simple vulnerability pattern (looking for direct unwrap calls)
 vulnerability_pattern = {
-    "type": "unwrap"
+    "type": "identifier"
 }
