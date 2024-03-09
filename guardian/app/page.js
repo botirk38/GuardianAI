@@ -1,68 +1,8 @@
-"use client";
-
 import Head from "next/head";
 import Link from "next/link";
-import { useCallback, useEffect, useState, useRef } from "react";
-import CodeMirror from "@uiw/react-codemirror";
-import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-import { rust } from "@codemirror/lang-rust";
-import ProgressCircle from "../components/ProgressCircle";
-import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
-import { EditorState } from "@codemirror/state";
-import { useCodeMirror } from "@uiw/react-codemirror";
-const highlightStyle = Decoration.line({
-    backgroundColor: "#ffcccc", // A light red background color
-});
-import { Range, RangeSet } from "@codemirror/rangeset";
+import AceEditor from "react-ace";
 
 export default function Home() {
-    const languages = [
-        {
-            value: "rust",
-            label: "Rust",
-        },
-
-        {
-            value: "python",
-            label: "Python",
-        },
-    ];
-
-    const [showCodeVulnerability, setShowCodeVulnerability] = useState(false);
-
-    const [rust_code, set_rust_code] = useState(`
-fn main() {
-    println!("Hello, world!");
-}
-`);
-
-    const onVulnerabilityClick = () => {
-        setShowCodeVulnerability(!showCodeVulnerability);
-    };
-
-    const onChange = useCallback((val, viewUpdate) => {
-        set_rust_code(val);
-    }, []);
-
-    const [percentage, setPercentage] = useState(
-        Math.floor(Math.random() * 101)
-    );
-
-    function applyDecorations(editor) {
-        // Highlight line number 10
-        let line = 10;
-        let lineStart = editor.state.doc.line(line).from;
-        let lineEnd = editor.state.doc.line(line).to;
-
-        let decoration = EditorView.lineHighlight({
-            class: "highlighted-line",
-        });
-        let range = new Range(lineStart, lineEnd);
-        let rangeSet = RangeSet.of(range, decoration);
-
-        return { decorations: rangeSet };
-    }
-
     return (
         <div>
             <Head>
@@ -156,7 +96,7 @@ fn main() {
                 >
                     {/* Left frame box */}
                     <div
-                        className="bg-gray-800 rounded-lg shadow-lg flex flex-col justify-center items-center"
+                        className="bg-gray-800 rounded-lg shadow-lg"
                         style={{
                             width: "550px",
                             height: "500px",
@@ -165,15 +105,6 @@ fn main() {
                         }}
                     >
                         {/* Left box content */}
-
-                        <ProgressCircle percentage={percentage} />
-
-                        <button
-                            className="bg-black p-4 rounded-2xl text-white font-bold hover:bg-white hover:text-black"
-                            onClick={onVulnerabilityClick}
-                        >
-                            Assess vulnerabilities
-                        </button>
                     </div>
 
           {/* Analyze button centered vertically */}
@@ -199,7 +130,6 @@ fn main() {
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
-                            onClick={() => setPercentage(Math.floor(Math.random() * 101))}
                         >
                             Analyze
                         </button>
@@ -215,22 +145,23 @@ fn main() {
                             marginLeft: "30px",
                         }}
                     >
-                        <CodeMirror
-                            value={rust_code}
-                            theme={vscodeDark}
-                            extensions={[rust()]}
+                        <AceEditor
+                            mode="javascript" // Set the language
+                            theme="github" // Set the theme
+                            name="code-editor"
+                            editorProps={{ $blockScrolling: true }}
+                            value={value}
                             onChange={onChange}
-                            basicSetup={true}
-                            onUpdate={(editor) => {
-                                if (showCodeVulnerability) {
-                                    let update = applyDecorations(editor);
-                                    editor.dispatch({
-                                        effects:
-                                            EditorView.updateListener.of(
-                                                update
-                                            ),
-                                    });
-                                }
+                            fontSize={14}
+                            showPrintMargin={true}
+                            showGutter={true}
+                            highlightActiveLine={true}
+                            setOptions={{
+                                enableBasicAutocompletion: true,
+                                enableLiveAutocompletion: true,
+                                enableSnippets: true,
+                                showLineNumbers: true,
+                                tabSize: 2,
                             }}
                         />
                     </div>
