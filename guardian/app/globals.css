@@ -8,6 +8,12 @@ body {
   padding: 0;
   margin: 0;
   font-family: Inter, sans-serif; /* Assuming you are using the Inter font as specified in layout.js */
+  background-image: url('/waves2.png'), linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background-position: top center, center center; /* Adjust wave image to cover the top area */
+  background-repeat: no-repeat, repeat; /* No repeat for wave image */
+  background-size: cover, cover; /* Cover ensures the image covers the full area */
+  background-attachment: fixed; /* Optional: fixes the background image during scroll */
+  background-blend-mode: overlay; /* Blends the image with the gradient */
 }
 
 /* Full page container */
@@ -25,16 +31,6 @@ body {
   /* Add other header styles here */
 }
 
-/* Main content area */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* The main column box */
 .content {
   text-align: center;
   /* Add other content styles here */
@@ -87,24 +83,4 @@ body {
   margin: 10px;
   text-align: center;
 }
-
-/* Full page main container, with no margins or padding to ensure the background spans the entire page */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 0; /* Remove top margin if any */
-  padding-top: 0; /* Remove top padding if any */
-  
-  /* Set the background image to cover the entire element */
-  background-image: url('/waves2.png'), linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  background-position: top center, center center; /* Adjust wave image to cover the top area */
-  background-repeat: no-repeat, repeat; /* No repeat for wave image */
-  background-size: cover, cover; /* Cover ensures the image covers the full area */
-  background-attachment: fixed; /* Optional: fixes the background image during scroll */
-  background-blend-mode: overlay; /* Blends the image with the gradient */
-}
-
 
