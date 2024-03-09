@@ -47,7 +47,7 @@ def create_app():
         click.echo("Database populated with Rust code samples.")
 
     @app.route("/fetch-code-sample", methods=['GET'])
-    @cache.cached(timeout=60, key_prefix='rust_code_sample')
+    @cache.cached(timeout=60, key_prefix='code_sample')
     def get_code_sample():
 
         try:
@@ -73,8 +73,6 @@ def create_app():
             return jsonify({"error": "Server error, please try again later."}), 500
 
     return app
-
-    
 
 
 if __name__ == "__main__":
