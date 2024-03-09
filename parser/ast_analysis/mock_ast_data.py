@@ -26,6 +26,7 @@ mock_ast_vulnerabilities = {
         "comments": "Lack of overflow checks can lead to incorrect balance calculations."
     }
 }
+
 mock_submission_ast = {
     "type": "function_definition",
     "name": "process_transaction",
@@ -70,4 +71,30 @@ mock_submission_ast = {
         }
     ],
     "comments": "Example Rust function that could contain vulnerabilities."
+}
+# Mock AST of a Rust function (simplified)
+mock_submission_ast1 = {
+    "type": "function",
+    "name": "process_payment",
+    "children": [
+        {
+            "type": "variable_declaration",
+            "name": "user_balance",
+            "dataType": "Result<u64, Error>",
+            "value": "query_balance(user_id)"
+        },
+        {
+            "type": "expression_statement",
+            "expression": {
+                "type": "unwrap_call",
+                "on": "user_balance",
+                "line": 5
+            }
+        }
+    ]
+}
+
+# A simple vulnerability pattern (looking for direct unwrap calls)
+vulnerability_pattern = {
+    "type": "unwrap_call"
 }
