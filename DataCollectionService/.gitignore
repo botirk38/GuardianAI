@@ -17,6 +17,8 @@ venv.bak/
 *.log
 *.sqlite
 *.db
+*.db-journal
+.gitignore
 
 # Static files (generated or user-uploaded)
 /static/uploads/
