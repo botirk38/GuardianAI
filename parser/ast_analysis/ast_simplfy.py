@@ -1,3 +1,10 @@
+import requests
+
+def fetch_ast():
+    url = "http://localhost:8080/"
+
+
+
 def simplify_ast(node, parent_type=None):
     simplified_node = {}
 

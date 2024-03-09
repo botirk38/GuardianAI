@@ -16,6 +16,7 @@ app = Flask(__name__)
 def hello_world():
     return test_analyze()
 
+
 @app.route('/test_analyze', methods=['GET'])
 def test_analyze():
     #found_vulnerabilities = compare_ast(mock_submission_ast1, vulnerability_pattern)
