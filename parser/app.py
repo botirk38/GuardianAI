@@ -1,16 +1,16 @@
-from flask import Flask, jsonify
-
+from flask import jsonify
 
 
 from ast_analysis.ast_mock_data import vulnerability_pattern, mock_submission_ast1 
 from ast_analysis.ast_mock_data import mock_submission_ast2 , rawdata
 from ast_analysis.ast_comparer import compare_ast
 from ast_analysis.ast_simplfy import simplify_ast
+from settings import app
 
 
 
 
-app = Flask(__name__)
+
 
 @app.route('/')
 def hello_world():
