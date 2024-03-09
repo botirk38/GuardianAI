@@ -1,8 +1,68 @@
+"use client";
+
 import Head from "next/head";
 import Link from "next/link";
-import AceEditor from "react-ace";
+import { useCallback, useEffect, useState, useRef } from "react";
+import CodeMirror from "@uiw/react-codemirror";
+import { vscodeDark } from "@uiw/codemirror-theme-vscode";
+import { rust } from "@codemirror/lang-rust";
+import ProgressCircle from "../components/ProgressCircle";
+import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
+import { EditorState } from "@codemirror/state";
+import { useCodeMirror } from "@uiw/react-codemirror";
+const highlightStyle = Decoration.line({
+    backgroundColor: "#ffcccc", // A light red background color
+});
+import { Range, RangeSet } from "@codemirror/rangeset";
 
 export default function Home() {
+    const languages = [
+        {
+            value: "rust",
+            label: "Rust",
+        },
+
+        {
+            value: "python",
+            label: "Python",
+        },
+    ];
+
+    const [showCodeVulnerability, setShowCodeVulnerability] = useState(false);
+
+    const [rust_code, set_rust_code] = useState(`
+fn main() {
+    println!("Hello, world!");
+}
+`);
+
+    const onVulnerabilityClick = () => {
+        setShowCodeVulnerability(!showCodeVulnerability);
+    };
+
+    const onChange = useCallback((val, viewUpdate) => {
+        set_rust_code(val);
+    }, []);
+
+    const [percentage, setPercentage] = useState(
+        Math.floor(Math.random() * 101)
+    );
+
+    function applyDecorations(editor) {
+        // Highlight line number 10
+        let line = 10;
+        let lineStart = editor.state.doc.line(line).from;
+        let lineEnd = editor.state.doc.line(line).to;
+
+        let decoration = EditorView.lineHighlight({
+            class: "highlighted-line",
+        });
+        let range = new Range(lineStart, lineEnd);
+        let rangeSet = RangeSet.of(range, decoration);
+
+        return { decorations: rangeSet };
+    }
+
     return (
         <div>
             <Head>
@@ -96,7 +156,7 @@ export default function Home() {
                 >
                     {/* Left frame box */}
                     <div
-                        className="bg-gray-800 rounded-lg shadow-lg"
+                        className="bg-gray-800 rounded-lg shadow-lg flex flex-col justify-center items-center"
                         style={{
                             width: "550px",
                             height: "500px",
@@ -105,6 +165,15 @@ export default function Home() {
                         }}
                     >
                         {/* Left box content */}
+
+                        <ProgressCircle percentage={percentage} />
+
+                        <button
+                            className="bg-black p-4 rounded-2xl text-white font-bold hover:bg-white hover:text-black"
+                            onClick={onVulnerabilityClick}
+                        >
+                            Assess vulnerabilities
+                        </button>
                     </div>
 
           {/* Analyze button centered vertically */}
@@ -130,6 +199,7 @@ export default function Home() {
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
+                            onClick={() => setPercentage(Math.floor(Math.random() * 101))}
                         >
                             Analyze
                         </button>
@@ -145,23 +215,22 @@ export default function Home() {
                             marginLeft: "30px",
                         }}
                     >
-                        <AceEditor
-                            mode="javascript" // Set the language
-                            theme="github" // Set the theme
-                            name="code-editor"
-                            editorProps={{ $blockScrolling: true }}
-                            value={value}
+                        <CodeMirror
+                            value={rust_code}
+                            theme={vscodeDark}
+                            extensions={[rust()]}
                             onChange={onChange}
-                            fontSize={14}
-                            showPrintMargin={true}
-                            showGutter={true}
-                            highlightActiveLine={true}
-                            setOptions={{
-                                enableBasicAutocompletion: true,
-                                enableLiveAutocompletion: true,
-                                enableSnippets: true,
-                                showLineNumbers: true,
-                                tabSize: 2,
+                            basicSetup={true}
+                            onUpdate={(editor) => {
+                                if (showCodeVulnerability) {
+                                    let update = applyDecorations(editor);
+                                    editor.dispatch({
+                                        effects:
+                                            EditorView.updateListener.of(
+                                                update
+                                            ),
+                                    });
+                                }
                             }}
                         />
                     </div>

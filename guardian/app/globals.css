@@ -108,3 +108,7 @@ body {
 }
 
 
+.highlighted-line {
+  background-color: lightcoral;
+  
+}
