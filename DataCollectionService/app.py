@@ -18,7 +18,7 @@ def fetch_and_store_code_samples():
             path=rust_sample['path'],
             code=rust_sample['code'],
             license=rust_sample['license'],
-            size=rust_sample['size']
+            size=rust_sample['size'],
         )
         db.session.add(new_sample)
         # Commit every 100 samples to avoid keeping too many objects in session
@@ -60,16 +60,18 @@ def create_app():
                     'path': sample.path,
                     'code': sample.code,
                     'license': sample.license,
-                    'size': sample.size
+                    'size': sample.size,
+                    'language': 'rust',
 
                 }
-
+                print(response)
                 return jsonify(response)
 
             else:
                 return jsonify({"error": "No code samples available"}), 404
 
-        except Exception:
+        except Exception as e:
+            print(e)
             return jsonify({"error": "Server error, please try again later."}), 500
 
     return app
