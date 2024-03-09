@@ -1,11 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import ReactSpeedometer from 'react-d3-speedometer'; // Make sure to install this package
 
 export default function Home() {
-  // Assume this accuracy value is dynamic and might be coming from props or state
-  const accuracyPercentage = 75; // Replace with actual dynamic value as needed
-
   return (
     <div>
       <Head>
@@ -37,29 +33,24 @@ export default function Home() {
         <div className="flex w-full justify-center" style={{ padding: '20px' }}>
           {/* Left frame box */}
           <div className="bg-gray-800 rounded-lg shadow-lg" style={{ width: '550px', height: '500px', border: '10px solid black', marginRight: '30px' }}>
-            {/* Speedometer component */}
-            <div style={{ padding: '1rem' }}>
-              <ReactSpeedometer
-                maxValue={100}
-                value={accuracyPercentage}
-                needleColor="red"
-                startColor="green"
-                segments={10}
-                endColor="red"
-                textColor="white"
-                height={400}
-              />
-            </div>
+            {/* Left box content */}
           </div>
 
           {/* Analyze button centered vertically */}
           <div className="my-auto" style={{ marginLeft: '30px', marginRight: '30px' }}>
-            {/* ... existing button content ... */}
+            <button className="bg-gradient-to-b from-gray-700 to-gray-900 text-blue-500 font-bold py-2 px-4 rounded-full shadow-lg" style={{ width: '120px', height: '120px', borderRadius: '50%', border: '5px solid black', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              Analyze
+            </button>
           </div>
 
           {/* Right frame box with textarea */}
           <div className="bg-gray-800 rounded-lg shadow-lg" style={{ width: '550px', height: '500px', border: '10px solid black', marginLeft: '30px' }}>
-            {/* ... existing textarea content ... */}
+            <textarea
+              id="codeInput"
+              className="w-full h-full bg-gray-700 text-white p-3 rounded"
+              placeholder="Enter your code here..."
+              style={{ fontFamily: 'monospace' }}
+            ></textarea>
           </div>
         </div>
       </main>
