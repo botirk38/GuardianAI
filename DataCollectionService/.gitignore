@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment / Dependencies
+.env
+.env.*
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+*.pyc
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Static files (generated or user-uploaded)
+/static/uploads/
+
+# Unit test / coverage reports
+.coverage
+htmlcov/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+
