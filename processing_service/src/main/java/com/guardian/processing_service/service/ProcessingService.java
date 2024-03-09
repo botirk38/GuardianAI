@@ -22,9 +22,20 @@ public class ProcessingService {
         this.parser = parser;
     }
 
-    public String processCode(CodeSample codeSample) {
+    public void processCode(CodeSample codeSample) {
+        String code = codeSample.getCode();
+        CharStream input = CharStreams.fromString(code);
 
-        return "test";
+        lexer.setInputStream(input);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        parser.setTokenStream(tokens);
+
+        ParseTree tree = parser.crate();
+
+        System.out.println(tree.toStringTree(parser));
+
         
     }
     
