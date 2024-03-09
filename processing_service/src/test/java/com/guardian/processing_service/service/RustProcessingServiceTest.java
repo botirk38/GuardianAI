@@ -18,6 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.json.JSONObject;
+
 
 public class RustProcessingServiceTest {
 
@@ -42,7 +47,7 @@ public class RustProcessingServiceTest {
         CodeSample codeSample = new RustCodeSample("fn main() { println!(\"Hello World\"); }", 1, "repo", "rust", "path", "license");
         
         // Assuming the method is expected to return a non-empty string for valid Rust code
-        String result = service.processCode(codeSample);
+        JSONObject result = service.processCode(codeSample);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -58,6 +63,53 @@ public class RustProcessingServiceTest {
 
         assertEquals("Invalid code sample or language not supported", exception.getMessage());
     }
+
+    @Test
+public void testProcessCodeWithNullCodeSample() {
+    RustProcessingService service = new RustProcessingService();
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        service.processCode(null);
+    });
+
+    assertEquals("Invalid code sample or language not supported", exception.getMessage());
+}
+
+@Test
+public void testProcessCodeWithEmptyCode() {
+    RustProcessingService service = new RustProcessingService();
+    CodeSample codeSample = new RustCodeSample("", 1, "repo", "rust", "path", "license");
+
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        service.processCode(codeSample);
+    });
+
+    assertEquals("Invalid code sample or language not supported", exception.getMessage());
+}
+
+@Test
+public void testBuildTreeWithNullTree() {
+    RustProcessingService service = new RustProcessingService();
+    RustParser parser = new RustParser(new CommonTokenStream(new RustLexer(CharStreams.fromString(""))));
+
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        service.buildTree(null, parser);
+    });
+
+    assertEquals("Tree cannot be null", exception.getMessage());
+}
+
+@Test
+public void testBuildTreeWithNullParser() {
+    RustProcessingService service = new RustProcessingService();
+    RustParser parser = new RustParser(new CommonTokenStream(new RustLexer(CharStreams.fromString(""))));
+    ParseTree tree = parser.crate();
+
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        service.buildTree(tree, null);
+    });
+
+    assertEquals("Parser cannot be null", exception.getMessage());
+}
 
 
 }
