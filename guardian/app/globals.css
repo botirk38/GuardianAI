@@ -1,33 +1,90 @@
+/* app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  padding: 0;
+  margin: 0;
+  font-family: Inter, sans-serif; /* Assuming you are using the Inter font as specified in layout.js */
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Full page container */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  /* Add other header styles here */
+}
+
+/* Main content area */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The main column box */
+.content {
+  text-align: center;
+  /* Add other content styles here */
+}
+
+/* Two symmetrical boxes in the center */
+.boxes {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/* Individual box styles */
+.box {
+  width: 200px; /* or whatever size you desire */
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px solid #000000; /* just an example */
+  /* Add other box styles here */
+}
+
+/* Add this to your globals.css */
+.navbar {
+  background-image: linear-gradient(to right, #0b0000, #000000); /* Example gradient from grey to dark */
+  color: #ffffff; /* Ensures text is white for contrast */
+}
+
+.menu-horizontal li a {
+  color: #ffffff; /* Ensures navigation links are white for contrast */
+}
+
+.btn-ghost {
+  color: #ffffff; /* Adjust button text color for visibility */
+}
+
+/* You might also want to add hover effects for your links/buttons for better interaction feedback */
+.menu-horizontal li a:hover,
+.btn-ghost:hover {
+  opacity: 0.8;
+}
+
+.navbar {
+  background-image: linear-gradient(to right, #4b5563, #1f2937);
+}
+
+.box {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+}
+
