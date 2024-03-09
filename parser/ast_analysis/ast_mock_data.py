@@ -99,9 +99,118 @@ mock_submission_ast1 = {
         }
     ]
 }
+mock_submission_ast2 = {
+    "type": "Program",
+    "children": [
+        {
+            "type": "Item",
+            "children": [
+                {
+                    "type": "Attribute",
+                    "name": "derive(Debug)",
+                    "children": []
+                },
+                {
+                    "type": "Struct",
+                    "name": "Rectangle",
+                    "children": [
+                        {
+                            "type": "Field",
+                            "name": "width",
+                            "dataType": "u32",
+                            "children": []
+                        },
+                        {
+                            "type": "Field",
+                            "name": "height",
+                            "dataType": "u32",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Item",
+            "children": [
+                {
+                    "type": "Impl",
+                    "target": "Rectangle",
+                    "children": [
+                        {
+                            "type": "Method",
+                            "name": "area",
+                            "returnType": "u32",
+                            "children": [
+                                {
+                                    "type": "Block",
+                                    "children": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "children": [
+                                                {
+                                                    "type": "BinaryOperation",
+                                                    "operator": "*",
+                                                    "left": {
+                                                        "type": "FieldAccess",
+                                                        "field": "width",
+                                                        "children": []
+                                                    },
+                                                    "right": {
+                                                        "type": "FieldAccess",
+                                                        "field": "height",
+                                                        "children": []
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Method",
+                            "name": "can_hold",
+                            "returnType": "bool",
+                            "children": [
+                                {
+                                    "type": "Block",
+                                    "children": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "children": [
+                                                {
+                                                    "type": "MethodCall",
+                                                    "method": "unwrap",
+                                                    "children": [
+                                                        {
+                                                            "type": "CallArgument",
+                                                            "children": [
+                                                                {
+                                                                    "type": "LocalVariable",
+                                                                    "name": "other_area",
+                                                                    "children": []
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
 
 
 # A simple vulnerability pattern (looking for direct unwrap calls)
 vulnerability_pattern = {
-    "type": "unwrap_call"
+    "type": "unwrap"
 }

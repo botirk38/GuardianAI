@@ -2,7 +2,8 @@ from flask import Flask, jsonify
 
 
 
-from ast_analysis.ast_mock_data import vulnerability_pattern, mock_submission_ast1
+from ast_analysis.ast_mock_data import vulnerability_pattern, mock_submission_ast1 
+from ast_analysis.ast_mock_data import mock_submission_ast2
 from ast_analysis.ast_comparer import compare_ast
 
 
@@ -16,10 +17,14 @@ def hello_world():
 @app.route('/test_analyze', methods=['GET'])
 def test_analyze():
     #found_vulnerabilities = compare_ast(mock_submission_ast1, vulnerability_pattern)
-    if compare_ast(mock_submission_ast1, vulnerability_pattern) == True:
-        return "yes"
+    if compare_ast(mock_submission_ast1, vulnerability_pattern):
+        print ("yes")
     else:
-        return "no"
+        print ("no")
+
+    if compare_ast(mock_submission_ast2 , vulnerability_pattern):
+        print("allhummabarik")
+    
     
 
 if __name__ == '__main__':
