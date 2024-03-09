@@ -9,6 +9,7 @@ def fetch_ast():
         
         if response.status_code == 200:
             data = response.json()
+            print("Data:", data)
             db.session.add(data)
             db.session.commit()
             return data
@@ -20,7 +21,6 @@ def fetch_ast():
     except requests.exceptions.RequestException as e:
         print(e)
         return None
-
 
 
 
