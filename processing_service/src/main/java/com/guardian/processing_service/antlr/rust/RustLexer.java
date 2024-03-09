@@ -1,4 +1,4 @@
-package com.guardian.processing_service.antlr;
+package com.guardian.processing_service.antlr.rust;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

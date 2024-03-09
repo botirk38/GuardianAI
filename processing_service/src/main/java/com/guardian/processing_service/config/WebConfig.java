@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import com.guardian.processing_service.antlr.RustLexer;
-import com.guardian.processing_service.antlr.RustParser;
+import com.guardian.processing_service.antlr.rust.RustLexer;
+import com.guardian.processing_service.antlr.rust.RustParser;
 
 @Configuration
 public class WebConfig {

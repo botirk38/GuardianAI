@@ -11,6 +11,8 @@ public class RustCodeSample implements CodeSample{
     private String path;
     private String license;
 
+    public RustCodeSample() {}
+
 
     public RustCodeSample(String code, int size, String repo, String language, String path, String license) {
 	
