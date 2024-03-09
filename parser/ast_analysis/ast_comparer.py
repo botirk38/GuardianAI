@@ -14,9 +14,13 @@ def traverse_and_compare(node, pattern):
     return False
 
 def matches_pattern(node, pattern):
+
+    #print (" this is node type " + node.get("type") + " " + pattern.get("type"))
+    print("this is node type " + node.get("type", "unknown"))
     if (node.get("type") == ("MethodCall")):
         if ((node.get("method")) == (pattern.get("type"))):
             return True
 
 def compare_ast(submitted_ast, vulnerability_pattern):
+    print("hi")
     return traverse_and_compare(submitted_ast, vulnerability_pattern)
