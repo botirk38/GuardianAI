@@ -88,3 +88,7 @@ body {
   text-align: center;
 }
 
+.highlighted-line {
+  background-color: lightcoral;
+  
+}
