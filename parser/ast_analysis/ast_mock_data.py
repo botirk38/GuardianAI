@@ -72,27 +72,34 @@ mock_submission_ast = {
     ],
     "comments": "Example Rust function that could contain vulnerabilities."
 }
-# Mock AST of a Rust function (simplified)
+
 mock_submission_ast1 = {
-    "type": "function",
+    "type": "Function",
     "name": "process_payment",
-    "children": [
+    "body": [  # Using 'body' to contain the function's statements and expressions
         {
-            "type": "variable_declaration",
+            "type": "VariableDeclaration",
             "name": "user_balance",
             "dataType": "Result<u64, Error>",
-            "value": "query_balance(user_id)"
+            "initializer": {
+                "type": "FunctionCall",
+                "name": "query_balance",
+                "arguments": ["user_id"]
+            }
         },
         {
-            "type": "expression_statement",
+            "type": "ExpressionStatement",
             "expression": {
-                "type": "unwrap_call",
-                "on": "user_balance",
+                "type": "MethodCall",
+                "receiver": "user_balance",
+                "method": "unwrap",
+                "arguments": [],
                 "line": 5
             }
         }
     ]
 }
+
 
 # A simple vulnerability pattern (looking for direct unwrap calls)
 vulnerability_pattern = {
