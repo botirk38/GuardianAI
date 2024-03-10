@@ -4,7 +4,8 @@ from ast_analysis.ast_mock_data import vulnerability_pattern
 from ast_analysis.ast_mock_data import mock_ast , rawdata
 from ast_analysis.ast_comparer import compare_ast
 from ast_analysis.ast_simplfy import simplify_ast
-from ast_analysis.ast_mock_data import attack_mapping
+from ast_analysis.ast_mock_data import attack_mapping 
+from ast_analysis.ast_attack_identifier import get_attack_descriptions
 from settings import app
 
 
@@ -20,7 +21,10 @@ def hello_world():
 @app.route('/test_analyze', methods=['GET'])
 def test_analyze():
     vulnerability_found = compare_ast(mock_ast, vulnerability_pattern)
-
+    get_attack_descriptions(vulnerability_found , attack_mapping)
+    print (get_attack_descriptions)
+    answer = simplify_ast(rawdata)
+    
     
     # If vulnerabilities are found, format them into a response
     if vulnerability_found:
@@ -34,12 +38,12 @@ def test_analyze():
         }
 
     # Return the response data as JSON
-    return jsonify(response_data)
+    return jsonify(answer)
 
 @app.route("/analyze-code", methods=['POST'])
 def analyze_code(form_data):
     # Fetch the AST from the code processing service
-    ast = post_code(form_data)
+    ast = fetch_ast()
 
     if ast:
         # Simplify the AST
@@ -49,7 +53,7 @@ def analyze_code(form_data):
 
         vulnerability_matrix = compare_ast(simplified_ast, vulnerability_pattern)
 
-        potential_attacks =  determine_potential_attacks(vulnerability_matrix)
+        potential_attacks =  determinePotentialAttacks(vulnerability_matrix)
 
         # Calculate the percentage of vulnerabilities in the code
 
