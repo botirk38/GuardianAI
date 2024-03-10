@@ -3,12 +3,10 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useState, useEffect } from "react";
-import { useCodeMirror } from "@uiw/react-codemirror";
 import CodeMirror from "@uiw/react-codemirror";
 import { rust } from "@codemirror/lang-rust";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import ProgressCircle from "../components/ProgressCircle";
-import { EditorView } from "@codemirror/view";
 
 export default function Home() {
     const [showCodeVulnerability, setShowCodeVulnerability] = useState(false);
