@@ -92,10 +92,7 @@ d            } else {
 
     return (
         <>
-            <Head>
-                <title>GuardianAI</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+           
 
             <nav
                 className="navbar z-50 px-6 lg:px-12 w-full"
@@ -106,7 +103,9 @@ d            } else {
                 }}
             >
                 <div className="flex justify-between items-center w-full">
+
                     <div className="flex items-center">
+                        <h1 className="text-white font-bold hover:text-blue-500 hover:text-xl hover:transition-all hover:transition-duration-500">GuardianAI</h1>
                         <Link href="/">
                             <img
                                 alt="GuardianAI"
@@ -133,8 +132,8 @@ d            } else {
                 </div>
             </nav>
 
-            <main className="main flex justify-center  mt-10 p-10">
-                <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col justify-center  gap-10 min-h-96  p-6">
+            <main className=" flex flex-col-reverse justify-center items-center mt-10 p-10">
+                <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col w-full justify-center items-center  gap-10 min-h-96  p-6">
                     <ProgressCircle percentage={percentage} />
                     <button
                         className="bg-black rounded-2xl text-white font-bold p-3 hover:bg-white hover:text-black"
@@ -158,8 +157,7 @@ d            } else {
                 </div>
 
                 <div
-                    className="my-auto"
-                    style={{ marginLeft: "30px", marginRight: "30px" }}
+                   className="flex justify-center items-center w-full p-6" 
                 >
                     <button
                         className="bg-gradient-to-b from-gray-700 to-gray-900 text-blue-500 font-bold py-2 px-4 rounded-full p-6 shadow-lg hover:bg-gray-100 hover:text-white"
@@ -179,13 +177,13 @@ d            } else {
                     </button>
                 </div>
 
-                <div className="bg-gray-800 flex flex-col rounded-xl shadow-lg border-8 border-black  min-h-96 w-96" >
+                <div className="bg-gray-800 flex flex-col w-full items-center justify-start rounded-xl shadow-lg border-8 border-black  min-h-96 w-96" >
                     <CodeMirror
                         value={formState.code}
                         onChange={onChange}
                         extensions={[rust(), vscodeDark]}
                         theme={vscodeDark}
-                        className="h-full"
+                        className="w-full min-h-full "
                     />
                 </div>
             </main>
