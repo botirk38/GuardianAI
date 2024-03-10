@@ -38,7 +38,7 @@ def test_analyze():
 @app.route("/analyze-code", methods=['POST'])
 def analyze_code(form_data):
     # Fetch the AST from the code processing service
-    ast = fetch_ast()
+    ast = post_code(form_data)
 
     if ast:
         # Simplify the AST
