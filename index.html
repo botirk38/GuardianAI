@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Code</title>
+</head>
+<body>
+    <h2>Submit your code</h2>
+    <form action="/predict" method="post">
+        <label for="code">Code:</label><br>
+        <textarea id="code" name="code" rows="10" cols="30" placeholder="use solana_program::{program::invoke_signed, instruction::Instruction, account_info::AccountInfo};
+
+        pub fn test_unsafe_cpi_without_check(instruction: &Instruction, accounts: &[AccountInfo], signers_seeds: &[&[&[u8]]]) {
+            // Test: Executes a CPI without checking the result, risking silent failures
+            let _ = invoke_signed(instruction, accounts, signers_seeds);
+        }
+        "></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

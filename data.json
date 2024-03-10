@@ -1,0 +1,578 @@
+[
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  },
+  {
+    "rust_code": "let x: Result<i32, _> = Ok(5);\nlet value = x.unwrap();",
+    "matrix": [
+      [0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "unsafe {\n    let ptr = &mut some_value;\n    // Unsafe operations\n}",
+    "matrix": [
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "let result = match some_condition {\n    true => 1,\n    false => 0,\n};",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0]
+    ]
+  },
+  {
+    "rust_code": "enum SomeEnum {\n    Variant1,\n    Variant2,\n}\n\nlet value = SomeEnum::Variant1;",
+    "matrix": [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1]
+    ]
+  }
+]

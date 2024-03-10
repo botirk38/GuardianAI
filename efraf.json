@@ -1,0 +1,58 @@
+[
+    {
+        "raw_code": "use solana_program::{\n    account_info::{AccountInfo, next_account_info},\n    entrypoint::ProgramResult,\n};\n\npub fn safe_increment_balance(accounts: &[AccountInfo], amount: u64) -> ProgramResult {\n    let accounts_iter = &mut accounts.iter();\n    let account = next_account_info(accounts_iter)?;\n    **account.try_borrow_mut_lamports()? += amount;\n    // Missing error handling for overflow\n    Ok(())\n}",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::{AccountInfo, next_account_info},\n    entrypoint::ProgramResult,\n    program_error::ProgramError,\n};\n\npub fn safe_increment_balance(accounts: &[AccountInfo], amount: u64) -> ProgramResult {\n    let accounts_iter = &mut accounts.iter();\n    let account = next_account_info(accounts_iter)?;\n    **account.try_borrow_mut_lamports()? = account.lamports()\n        .checked_add(amount)\n        .ok_or(ProgramError::InvalidArgument)?;\n    Ok(())\n}\n",
+        "binary_vulnerability_vector": [0]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::{AccountInfo, next_account_info},\n    entrypoint::ProgramResult,\n};\n\npub fn safe_write_data(accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {\n    let accounts_iter = &mut accounts.iter();\n    let account = next_account_info(accounts_iter)?;\n    account.try_borrow_mut_data()?[..data.len()].copy_from_slice(data);\n    // No validation of data length vs account data size\n    Ok(())\n}",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::{AccountInfo, next_account_info},\n    entrypoint::ProgramResult,\n    program_error::ProgramError,\n};\n\npub fn safe_write_data(accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {\n    let accounts_iter = &mut accounts.iter();\n    let account = next_account_info(accounts_iter)?;\n    if data.len() > account.data_len() {\n        return Err(ProgramError::AccountDataTooSmall);\n    }\n    account.try_borrow_mut_data()?[..data.len()].copy_from_slice(data);\n    Ok(())\n}",
+        "binary_vulnerability_vector": [0]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    pubkey::Pubkey,\n    program_error::ProgramError,\n};\n\npub fn safe_account_verification(account: &AccountInfo, expected_owner: &Pubkey) -> bool {\n    account.owner == expected_owner\n}",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    pubkey::Pubkey,\n    entrypoint::ProgramResult,\n    program_error::ProgramError,\n};\n\npub fn safe_account_verification(account: &AccountInfo, expected_owner: &Pubkey) -> ProgramResult {\n    if account.owner != expected_owner {\n        return Err(ProgramError::IllegalOwner);\n    }\n    Ok(())\n}",
+        "binary_vulnerability_vector": [0]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    program_error::ProgramError,\n};\n\npub fn safe_error_propagation(result: ProgramResult) {\n    match result {\n        Ok(_) => {},\n        Err(_) => {} // Error is ignored, not propagated\n    }\n}",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::entrypoint::ProgramResult;\n\npub fn safe_error_propagation(result: ProgramResult) -> ProgramResult {\n    match result {\n        Ok(_) => Ok(()),\n        Err(e) => Err(e), // Properly propagate the error\n    }\n}",
+        "binary_vulnerability_vector": [0]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    program_error::ProgramError,\n    entrypoint::ProgramResult,\n};\n\npub fn safe_state_update(accounts: &[AccountInfo], validator: &Pubkey) -> ProgramResult {\n    let account = &accounts[0];\n    ",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    program_error::ProgramError,\n    entrypoint::ProgramResult,\n};\n\npub fn safe_state_update(accounts: &[AccountInfo], validator: &Pubkey) -> ProgramResult {\n    let account = &accounts[0];\n    if account.owner != validator {\n        return Err(ProgramError::IllegalOwner);\n    }\n    account.try_borrow_mut_data()?[0] = 1; // State change after validation\n    Ok(())\n}",
+        "binary_vulnerability_vector": [0]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    entrypoint::ProgramResult,\n};\n\npub fn safe_writability_check(account: &AccountInfo) {\n    let _ = account.try_borrow_mut_data(); // Attempt to borrow data without checking writability\n}",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    entrypoint::ProgramResult,\n    program_error::ProgramError,\n};\n\npub fn safe_writability_check(account: &AccountInfo) -> ProgramResult {\n    if !account.is_writable {\n        return Err(ProgramError::ReadOnly);\n    }\n    let _ = account.try_borrow_mut_data(); // Proceed after check\n    Ok(())\n}",
+        "binary_vulnerability_vector": [0]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    entrypoint::ProgramResult,\n};\n\npub fn safe_account_size_check(account: &AccountInfo) {\n    let _data = account.try_borrow_data().unwrap(); // Direct access without size check\n}",
+        "binary_vulnerability_vector": [1]
+    },
+    {
+        "raw_code": "use solana_program::{\n    account_info::AccountInfo,\n    entrypoint::ProgramResult,\n    program_error::ProgramError,\n};\n\npub fn safe_account_size_check(account: &AccountInfo) -> ProgramResult {\n    if account.data_len() < 10 {\n        return Err(ProgramError::AccountDataTooSmall);\n    }\n    let _data = account.try_borrow_data().unwrap(); // Proceed after size check\n    Ok(())\n}",
+        "binary_vulnerability_vector": [0]
+    }
+]
