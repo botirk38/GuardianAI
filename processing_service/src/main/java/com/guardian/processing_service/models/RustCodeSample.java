@@ -1,8 +1,10 @@
 package com.guardian.processing_service.models;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RustCodeSample implements CodeSample {
+public class RustCodeSample implements CodeSample, Serializable{
 
     private String code;
     private int size;

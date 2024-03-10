@@ -38,7 +38,7 @@ public class ProcessingService {
         ParseTree tree = parser.crate();
 
         JSONObject json = buildTree(tree, parser);
-        logger.debug("Tree: " + json.toString());
+
 
         return json;
     }
