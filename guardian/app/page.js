@@ -2,7 +2,7 @@
 
 import Head from "next/head";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useCodeMirror } from "@uiw/react-codemirror";
 import CodeMirror from "@uiw/react-codemirror";
 import { rust } from "@codemirror/lang-rust";
@@ -12,21 +12,57 @@ import { EditorView } from "@codemirror/view";
 
 export default function Home() {
     const [showCodeVulnerability, setShowCodeVulnerability] = useState(false);
-    const [rustCode, setRustCode] = useState(`fn main() {
+    const placeholder = `fn main() {
     println!("Hello, world!");
 }
-`);
+`;
     const [percentage, setPercentage] = useState(
         Math.floor(Math.random() * 101)
     );
+
+    const [formState, setFormState] = useState({
+        repo_name: "test",
+        path: "test",
+        code: placeholder,
+        license: "MIT",
+        size: placeholder.length,
+    });
 
     const onVulnerabilityClick = () => {
         setShowCodeVulnerability(!showCodeVulnerability);
     };
 
     const onChange = useCallback((value, viewUpdate) => {
-        setRustCode(value);
+        setFormState((prevState) => ({
+            ...prevState,
+            code: value,
+            size: value.length,
+        }));
     }, []);
+
+    const onSubmit = async () => {
+        console.log("Form State: ", formState);
+
+        try {
+            const response = await fetch("/api/submit-code", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formState),
+            });
+
+            if (response.ok) {
+                const json = await response.json();
+                console.log(json);
+            } else {
+                const error = await response.text();
+                console.error(error);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const vulnerabilities = [
         "Unsafe block",
@@ -117,9 +153,7 @@ export default function Home() {
                             alignItems: "center",
                             justifyContent: "center",
                         }}
-                        onClick={() =>
-                            setPercentage(Math.floor(Math.random() * 101))
-                        }
+                        onClick={onSubmit}
                     >
                         Analyze
                     </button>
@@ -127,7 +161,7 @@ export default function Home() {
 
                 <div className="bg-gray-800 flex flex-col rounded-xl shadow-lg border-8 border-black w-ful min-h-96">
                     <CodeMirror
-                        value={rustCode}
+                        value={formState.code}
                         onChange={onChange}
                         extensions={[rust(), vscodeDark]}
                         theme={vscodeDark}
