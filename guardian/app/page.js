@@ -73,7 +73,7 @@ export default function Home() {
                 const json = await response.json();
                 console.log(json);
                 const newPercentage = json.percentage;
-                setPercentage(newPercentage);
+                setPercentage(newPercentage.toFixed(0));
 
 d            } else {
                 const error = await response.text();
