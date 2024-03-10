@@ -81,6 +81,13 @@ vulnerability_pattern = [
     {"type": "EnumVariant"},
     {"type": "UnsafeBlock"}
 ]
+vulnerability_mapping = {
+    "UnwrapCall": "0001",
+    "Attribute": "0010",
+    "StaticMut": "0011",
+    "EnumVariant": "0100",
+    "UnsafeBlock": "0101",
+}
 
 
 
