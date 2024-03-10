@@ -48,7 +48,7 @@ def analyze_code(form_data):
 
         vulnerability_matrix = compare_ast(simplified_ast, vulnerability_pattern)
 
-        potential_attacks =  determinePotentialAttacks(vulnerability_matrix)
+        potential_attacks =  determine_potential_attacks(vulnerability_matrix)
 
         # Calculate the percentage of vulnerabilities in the code
 
