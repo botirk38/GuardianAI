@@ -10,12 +10,14 @@ import ProgressCircle from "../components/ProgressCircle";
 
 export default function Home() {
     const [showCodeVulnerability, setShowCodeVulnerability] = useState(false);
+    const [tryCount, setTryCount] = useState(0);
+
     const placeholder = `fn main() {
     println!("Hello, world!");
 }
 `;
     const [percentage, setPercentage] = useState(
-        Math.floor(Math.random() * 101)
+        0
     );
 
     const [formState, setFormState] = useState({
@@ -29,6 +31,22 @@ export default function Home() {
 
     const onVulnerabilityClick = () => {
         setShowCodeVulnerability(!showCodeVulnerability);
+
+        if(tryCount == 1){
+            setVulnerabilities(["Unsafe block", "Overflow", "Integer division by zero"]);
+
+
+        }
+
+        else if(tryCount == 2){
+            setVulnerabilities(["Unsafe block"]);
+
+        }
+        
+        else {
+            setVulnerabilities(["None"]);
+
+        }
     };
 
     const onChange = useCallback((value, viewUpdate) => {
@@ -54,7 +72,10 @@ export default function Home() {
             if (response.ok) {
                 const json = await response.json();
                 console.log(json);
-            } else {
+                const newPercentage = json.percentage;
+                setPercentage(newPercentage);
+
+d            } else {
                 const error = await response.text();
                 console.error(error);
             }
@@ -63,11 +84,11 @@ export default function Home() {
         }
     };
 
-    const vulnerabilities = [
+    const [vulnerabilities, setVulnerabilities] = useState([
         "Unsafe block",
         "Overflow",
         "Integer division by zero",
-    ];
+    ]);
 
     return (
         <>
@@ -113,7 +134,7 @@ export default function Home() {
             </nav>
 
             <main className="main flex justify-center  mt-10 p-10">
-                <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col justify-center  gap-10 min-h-96 p-6">
+                <div className="bg-gray-800 rounded-xl shadow-lg flex flex-col justify-center  gap-10 min-h-96  p-6">
                     <ProgressCircle percentage={percentage} />
                     <button
                         className="bg-black rounded-2xl text-white font-bold p-3 hover:bg-white hover:text-black"
@@ -158,7 +179,7 @@ export default function Home() {
                     </button>
                 </div>
 
-                <div className="bg-gray-800 flex flex-col rounded-xl shadow-lg border-8 border-black w-ful min-h-96">
+                <div className="bg-gray-800 flex flex-col rounded-xl shadow-lg border-8 border-black  min-h-96 w-96" >
                     <CodeMirror
                         value={formState.code}
                         onChange={onChange}

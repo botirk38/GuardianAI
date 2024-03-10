@@ -25,15 +25,15 @@ def post_code(data):
         response = requests.post(url, json=data)
         
         if response.status_code == 200:
-            return True
+            return response.json()
 
         else:
             print(f"Failed to post code: {response.status_code}")
-            return False
+            return None
 
     except requests.exceptions.RequestException as e:
         print(e)
-        return False
+        return None
 
 
 

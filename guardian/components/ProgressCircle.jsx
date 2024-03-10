@@ -44,7 +44,7 @@ const ProgressCircle = ({ percentage }) => {
 
             <label className="text-white absolute top-32 left-28 text-center">
                 {percentage}%<br />
-                <span className="text-sm text-blue-500 font-bold">Vulnerable</span>
+                <span className="text-sm text-blue-500 font-bold">Invulnerable</span>
             </label>
         </div>
     );

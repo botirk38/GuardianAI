@@ -2,6 +2,10 @@ package com.guardian.processing_service.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
@@ -10,8 +14,7 @@ import com.guardian.processing_service.antlr.rust.RustLexer;
 import com.guardian.processing_service.antlr.rust.RustParser;
 import com.guardian.processing_service.models.CodeSample;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +26,7 @@ public class ProcessingService {
     public ProcessingService() {
     }
 
-    public JSONObject processCode(CodeSample codeSample) {
+    public Map<String, Object> processCode(CodeSample codeSample) {
 
         if (codeSample == null || !codeSample.getLanguage().equals("rust") || codeSample.getCode().isEmpty()) {
             throw new IllegalArgumentException("Invalid code sample or language not supported");
@@ -37,38 +40,45 @@ public class ProcessingService {
 
         ParseTree tree = parser.crate();
 
-        JSONObject json = buildTree(tree, parser);
+        Map<String, Object> json = buildTree(tree, parser);
 
+        logger.debug("JSON: " + json.toString());
 
         return json;
     }
 
-     JSONObject buildTree(ParseTree tree, RustParser parser) {
+    Map<String, Object> buildTree(ParseTree tree, RustParser parser) {
 
-        if( tree == null ) {
+        if (tree == null) {
             throw new IllegalArgumentException("Tree cannot be null");
         }
 
-        if( parser == null ) {
+        if (parser == null) {
             throw new IllegalArgumentException("Parser cannot be null");
         }
 
-        JSONObject json = new JSONObject();
+        // Create a new map for the current node
+        Map<String, Object> json = new HashMap<>();
         json.put("name", parser.getRuleNames()[((RuleContext) tree).getRuleIndex()]);
-        JSONArray children = new JSONArray();
-        for (int i = 0; i < tree.getChildCount(); i++) {
-            ParseTree child = tree.getChild(i);
-            if (child instanceof RuleContext) {
-                children.put(buildTree(child, parser));
-            } else {
-                JSONObject leaf = new JSONObject();
-                leaf.put("name", child.toString());
-                children.put(leaf);
+
+        // Check if the tree has children
+        if (tree.getChildCount() > 0) {
+            List<Map<String, Object>> children = new ArrayList<>();
+            for (int i = 0; i < tree.getChildCount(); i++) {
+                ParseTree child = tree.getChild(i);
+                if (child instanceof RuleContext) {
+                    // Recursive call for non-terminal nodes
+                    children.add(buildTree(child, parser));
+                } else {
+                    // Create a new map for the leaf node
+                    Map<String, Object> leaf = new HashMap<>();
+                    leaf.put("name", child.toString());
+                    children.add(leaf);
+                }
             }
+            json.put("children", children);
         }
-        json.put("children", children);
         return json;
     }
-
 
 }

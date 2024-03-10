@@ -1,5 +1,7 @@
 package com.guardian.processing_service.controller;
 
+import java.util.Map;
+
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +33,11 @@ public class ProcessingServiceController {
     }
 
     @GetMapping("/process-code/{language}")
-    public ResponseEntity<JSONObject> processCode(@PathVariable("language") String language) {
+    public ResponseEntity<Map<String, ?>> processCode(@PathVariable("language") String language) {
 
         if (!language.equals("rust")) {
             return ResponseEntity.badRequest()
-                    .body(new JSONObject().put("error", "Invalid code sample or language not supported"));
+                    .body(Map.of("error", "Invalid code sample or language not supported"));
         }
 
         CodeSample codeSample = restTemplate.getForObject("http://localhost:5000/fetch-code-sample",
@@ -43,14 +45,14 @@ public class ProcessingServiceController {
 
         logger.debug("Code Sample: " + codeSample.toString());
 
-            
-
-        if (codeSample == null || !codeSample.getLanguage().equals("rust") || codeSample.getCode().isEmpty() || codeSample.getSize() < 1 || codeSample.getRepo().isEmpty() || codeSample.getPath().isEmpty() || codeSample.getLicense().isEmpty() || codeSample.getLanguage().isEmpty()){
+        if (codeSample == null || !codeSample.getLanguage().equals("rust") || codeSample.getCode().isEmpty()
+                || codeSample.getSize() < 1 || codeSample.getRepo().isEmpty() || codeSample.getPath().isEmpty()
+                || codeSample.getLicense().isEmpty() || codeSample.getLanguage().isEmpty()) {
             return ResponseEntity.badRequest()
-                    .body(new JSONObject().put("error", "Invalid code sample or language not supported"));
+                    .body(Map.of("error", "Invalid code sample or language not supported"));
         }
 
-        JSONObject result = processingService.processCode(codeSample);
+        Map<String, Object> result = processingService.processCode(codeSample);
         logger.debug("Result: " + result.toString());
 
         return ResponseEntity.ok(result);
@@ -58,15 +60,16 @@ public class ProcessingServiceController {
     }
 
     @PostMapping("/analyze-code")
-    public ResponseEntity<JSONObject> analyzeCode(@RequestBody RustCodeSample codeSample) {
-        if (codeSample == null || !codeSample.getLanguage().equals("rust") || codeSample.getCode().isEmpty() || codeSample.getSize() < 1 || codeSample.getRepo().isEmpty() || codeSample.getPath().isEmpty() || codeSample.getLicense().isEmpty() || codeSample.getLanguage().isEmpty()){
+    public ResponseEntity<Map<String, ?>> analyzeCode(@RequestBody RustCodeSample codeSample) {
+        if (codeSample == null || !codeSample.getLanguage().equals("rust") || codeSample.getCode().isEmpty()
+                || codeSample.getSize() < 1 || codeSample.getRepo().isEmpty() || codeSample.getPath().isEmpty()
+                || codeSample.getLicense().isEmpty() || codeSample.getLanguage().isEmpty()) {
             return ResponseEntity.badRequest()
-                    .body(new JSONObject().put("error", "Invalid code sample or language not supported"));
+                    .body(Map.of("error", "Invalid code sample or language not supported"));
         }
 
-        JSONObject result = processingService.processCode(codeSample);
-        logger.debug("Result: " + result.toString());
+        Map<String, Object> result = processingService.processCode(codeSample);
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok().body(Map.of("Tree:", result));
     }
 }

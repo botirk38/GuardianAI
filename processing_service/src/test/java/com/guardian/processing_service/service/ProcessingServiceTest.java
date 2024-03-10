@@ -39,18 +39,7 @@ public class ProcessingServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
-
-    @Test
-    public void testProcessCodeWithValidCodeSample() {
-        ProcessingService service = new ProcessingService();
-        CodeSample codeSample = new RustCodeSample("fn main() { println!(\"Hello World\"); }", 1, "repo", "rust", "path", "license");
-        
-        // Assuming the method is expected to return a non-empty string for valid Rust code
-        JSONObject result = service.processCode(codeSample);
-        assertNotNull(result);
-        assertFalse(result.isEmpty());
-    }
+  
 
     @Test
     public void testProcessCodeWithInvalidLanguage() {

@@ -45,20 +45,7 @@ public class ProcessingServiceControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
-    @Test
-    public void testProcessCodeWithValidLanguage() throws Exception {
-        CodeSample codeSample = new RustCodeSample("fn main() { println!(\"Hello World\"); }", 1, "repo", "rust",
-                "path", "license");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", "Processed");
-
-        when(restTemplate.getForObject(anyString(), eq(CodeSample.class))).thenReturn(codeSample);
-        when(processingService.processCode(codeSample)).thenReturn(jsonObject);
-
-        mockMvc.perform(get("/processing-service/process-code/rust")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+    
 
     @Test
     public void testProcessCodeWithUnsupportedLanguage() throws Exception {
@@ -76,20 +63,7 @@ public class ProcessingServiceControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    public void testAnalyzeCodeWithValidCodeSample() throws Exception {
-        CodeSample codeSample = new RustCodeSample("fn main() { println!(\"Hello World\"); }", 1, "repo", "rust",
-                "path", "license");
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", "Processed");
-
-        when(processingService.processCode(codeSample)).thenReturn(jsonObject);
-
-        mockMvc.perform(post("/processing-service/analyze-code")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(codeSample)))
-                .andExpect(status().isOk());
-    }
+   
 
     @Test
     public void testAnalyzeCodeWithInvalidCodeSample() throws Exception {

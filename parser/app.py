@@ -62,13 +62,13 @@ def analyze_code():
     form_data = request.json
     print("Form data:", form_data)
     ast = post_code(form_data)
+    print("AST:", ast)
 
     
 
     if ast:
         # Simplify the AST
-        simplified_ast = simplify_ast(rawdata)
-        print("Simplified AST:", simplified_ast)
+        simplified_ast = simplify_ast(ast)
 
         # Compare the simplified AST with the vulnerability pattern
 
@@ -86,7 +86,8 @@ def analyze_code():
         # If vulnerabilities are found, format them into a response
 
         return jsonify({
-            "percentage": percentage
+            "percentage": percentage,
+            "simplifiedAST": simplified_ast,
         })
 
     return jsonify({
