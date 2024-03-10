@@ -39,7 +39,7 @@ def test_analyze():
 @app.route("/analyze-code", methods=['POST'])
 def analyze_code(form_data):
     # Fetch the AST from the code processing service
-    ast = fetch_ast()
+    ast = post_code(form_data)
 
     if ast:
         # Simplify the AST
@@ -49,7 +49,7 @@ def analyze_code(form_data):
 
         vulnerability_matrix = compare_ast(simplified_ast, vulnerability_pattern)
 
-        potential_attacks =  determinePotentialAttacks(vulnerability_matrix)
+        potential_attacks =  determine_potential_attacks(vulnerability_matrix)
 
         # Calculate the percentage of vulnerabilities in the code
 
