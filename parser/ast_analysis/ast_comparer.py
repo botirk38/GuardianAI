@@ -1,32 +1,31 @@
-def traverse_and_compare(node, pattern):
 
+
+def traverse_and_compare(node, patterns):
+    found_vulnerabilities = []
+    
     if isinstance(node, dict):
-        if matches_pattern(node, pattern):
-            return True
-        # Recursively call on each value
-        for key, value in node.items():
-            if traverse_and_compare(value, pattern):
-                return True
+        for pattern in patterns:
+            if node.get("type") == pattern.get("type"):
+                found_vulnerabilities.append((node.get("type"), node.get("parentType")))
+                break  # Break to avoid duplicate reporting
 
+        for value in node.values():
+            found_vulnerabilities.extend(traverse_and_compare(value, patterns))
 
     elif isinstance(node, list):
-        return any(traverse_and_compare(item, pattern) for item in node)
+        for item in node:
+            found_vulnerabilities.extend(traverse_and_compare(item, patterns))
 
-    
-    return False
+    return found_vulnerabilities
 
-def matches_pattern(node, pattern):
-    node_type = node.get("type") or node.get("name")
-    print("this is node type:", node_type)
-
-    # Adjust the pattern matching to use "name" as "type" if necessary
-    expected_type = pattern.get("type")
-
-    if node_type == expected_type:
-        return True
-    return False
-
-
-def compare_ast(submitted_ast, vulnerability_pattern):
+def compare_ast(submitted_ast, vulnerability_patterns):
     print("Searching for vulnerabilities...")
-    return traverse_and_compare(submitted_ast, vulnerability_pattern)
+    vulnerabilities_found = traverse_and_compare(submitted_ast["simplified_ast"]["children"], vulnerability_patterns)
+
+    if vulnerabilities_found:
+        for vulnerability in vulnerabilities_found:
+            print(f"Vulnerability found: {vulnerability[0]} in context: {vulnerability[1]}")
+            return vulnerabilities_found
+    else:
+        print("No vulnerabilities found.")
+

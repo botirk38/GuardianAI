@@ -1,9 +1,7 @@
-from flask import jsonify
+from flask import Flask, jsonify
 import requests
-
-
-from ast_analysis.ast_mock_data import vulnerability_pattern, mock_submission_ast1 
-from ast_analysis.ast_mock_data import mock_submission_ast2
+from ast_analysis.ast_mock_data import vulnerability_pattern  
+from ast_analysis.ast_mock_data import mock_ast , rawdata
 from ast_analysis.ast_comparer import compare_ast
 from ast_analysis.ast_simplfy import simplify_ast, fetch_ast
 from settings import app, db
@@ -38,12 +36,66 @@ def hello_world():
 
 @app.route('/test_analyze', methods=['GET'])
 def test_analyze():
-        simplified_ast = simplify_ast(raw_data)
+    vulnerability_found = compare_ast(mock_ast, vulnerability_pattern)
+    
+    # If vulnerabilities are found, format them into a response
+    if vulnerability_found:
         response_data = {
-        "simplified_ast": simplified_ast }
-        answer = compare_ast(raw_data , vulnerability_pattern)
-        print(answer)
-        return jsonify(response_data)
+            "vulnerability_found": "yes",
+            "details": vulnerability_found
+        }
+    else:
+        response_data = {
+            "vulnerability_found": "no",
+            "details": []
+        }
+
+    # Return the response data as JSON
+    return jsonify(response_data)
+
+@app.route("/analyze-code", methods=['POST'])
+def analyze_code(form_data):
+    # Fetch the AST from the code processing service
+    ast = post_code(form_data)
+
+    if ast:
+        # Simplify the AST
+        simplified_ast = simplify_ast(ast)
+
+        # Compare the simplified AST with the vulnerability pattern
+
+        vulnerability_matrix = compare_ast(simplified_ast, vulnerability_pattern)
+
+        potential_attacks =  determine_potential_attacks(vulnerability_matrix)
+
+        # Calculate the percentage of vulnerabilities in the code
+
+        percentage = getTotalPercentageFromMatrix(vulnerability_matrix)
+
+
+        # If vulnerabilities are found, format them into a response
+
+        return jsonify({
+            "potential_attacks": potential_attacks,
+            "percentage": percentage
+        })
+
+    return jsonify({
+        "error": "Failed to fetch AST"
+    })
+    
+
+
+
+            
+
+
+            
+
+
+
+
+
 
 
     

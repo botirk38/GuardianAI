@@ -9,9 +9,6 @@ def fetch_ast():
         
         if response.status_code == 200:
             data = response.json()
-            print("Data:", data)
-            db.session.add(data)
-            db.session.commit()
             return data
 
         else:
@@ -21,6 +18,25 @@ def fetch_ast():
     except requests.exceptions.RequestException as e:
         print(e)
         return None
+
+def post_code(data):
+    url = "http://localhost:8080//processing-service/process-code/rust"
+
+    try:
+        response = requests.post(url, json=data)
+        
+        if response.status_code == 200:
+            return True
+
+        else:
+            print(f"Failed to post code: {response.status_code}")
+            return False
+
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return False
+
+
 
 
 
