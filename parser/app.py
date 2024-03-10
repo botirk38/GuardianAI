@@ -1,7 +1,5 @@
 from flask import Flask, jsonify
-
-
-
+import requests
 from ast_analysis.ast_mock_data import vulnerability_pattern  
 from ast_analysis.ast_mock_data import mock_ast , rawdata
 from ast_analysis.ast_comparer import compare_ast
@@ -36,6 +34,50 @@ def test_analyze():
 
     # Return the response data as JSON
     return jsonify(response_data)
+
+@app.route("/analyze-code", methods=['POST'])
+def analyze_code(form_data):
+    # Fetch the AST from the code processing service
+    ast = fetch_ast()
+
+    if ast:
+        # Simplify the AST
+        simplified_ast = simplify_ast(ast)
+
+        # Compare the simplified AST with the vulnerability pattern
+
+        vulnerability_matrix = compare_ast(simplified_ast, vulnerability_pattern)
+
+        potential_attacks =  determinePotentialAttacks(vulnerability_matrix)
+
+        # Calculate the percentage of vulnerabilities in the code
+
+        percentage = getTotalPercentageFromMatrix(vulnerability_matrix)
+
+
+        # If vulnerabilities are found, format them into a response
+
+        return jsonify({
+            "potential_attacks": potential_attacks,
+            "percentage": percentage
+        })
+
+    return jsonify({
+        "error": "Failed to fetch AST"
+    })
+    
+
+
+
+            
+
+
+            
+
+
+
+
+
 
 
     

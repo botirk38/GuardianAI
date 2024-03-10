@@ -72,8 +72,6 @@ mock_ast = {
   }
 }
 
-
-
 vulnerability_pattern = [
     {"type": "UnwrapCall"},  
     {"type": "Attribute"},
@@ -87,6 +85,14 @@ vulnerability_mapping = {
     "StaticMut": "0011",
     "EnumVariant": "0100",
     "UnsafeBlock": "0101",
+}
+
+vulnerability_ranking = {
+    "0001": 1,
+    "0010": 2,
+    "0011": 3,
+    "0100": 4,
+    "0101": 5,
 }
 
 
