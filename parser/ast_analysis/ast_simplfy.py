@@ -1,3 +1,29 @@
+import requests
+from settings import db
+
+def fetch_ast():
+    url = "http://localhost:8080//processing-service/process-code/rust"
+
+    try:
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            data = response.json()
+            db.session.add(data)
+            db.session.commit()
+            return data
+
+        else:
+            print(f"Failed to fetch AST: {response.status_code}")
+            return None
+
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return None
+
+
+
+
 def simplify_ast(node, parent_type=None):
     simplified_node = {}
 

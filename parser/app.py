@@ -6,13 +6,17 @@ from ast_analysis.ast_mock_data import vulnerability_pattern
 from ast_analysis.ast_mock_data import mock_ast , rawdata
 from ast_analysis.ast_comparer import compare_ast
 from ast_analysis.ast_simplfy import simplify_ast
+from settings import app
 
 
-app = Flask(__name__)
+
+
+
 
 @app.route('/')
 def hello_world():
     return test_analyze()
+
 
 @app.route('/test_analyze', methods=['GET'])
 def test_analyze():
