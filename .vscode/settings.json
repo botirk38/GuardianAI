@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./parser/ast_analysis"
+    ]
+}
