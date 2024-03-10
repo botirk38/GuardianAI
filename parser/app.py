@@ -26,7 +26,7 @@ def test_analyze():
     if vulnerability_found:
         response_data = {
             "vulnerability_found": "yes",
-            "matrix": vulnerability_found
+            "MATRIX": vulnerability_found
         }
     else:
         response_data = {
