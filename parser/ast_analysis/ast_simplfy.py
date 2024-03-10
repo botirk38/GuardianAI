@@ -1,5 +1,4 @@
 import requests
-from settings import db
 
 def fetch_ast():
     url = "http://localhost:8080//processing-service/process-code/rust"
@@ -20,7 +19,7 @@ def fetch_ast():
         return None
 
 def post_code(data):
-    url = "http://localhost:8080//processing-service/process-code/rust"
+    url = "http://localhost:8080/processing-service/analyze-code"
 
     try:
         response = requests.post(url, json=data)

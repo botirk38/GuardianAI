@@ -20,7 +20,7 @@ def traverse_and_compare(node, patterns):
 
 def compare_ast(submitted_ast, vulnerability_patterns):
     print("Searching for vulnerabilities...")
-    vulnerabilities_found = traverse_and_compare(submitted_ast["simplified_ast"]["children"], vulnerability_patterns)
+    vulnerabilities_found = traverse_and_compare(submitted_ast, vulnerability_patterns)
 
     if vulnerabilities_found:
         for vulnerability in vulnerabilities_found:

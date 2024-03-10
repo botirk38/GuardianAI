@@ -1,7 +1,28 @@
-from ast_mock_data import vulnerability_mapping, vulnerability_ranking
+
+vulnerability_mapping = {
+    "UnwrapCall": "0001",
+    "Attribute": "0010",
+    "StaticMut": "0011",
+    "EnumVariant": "0100",
+    "UnsafeBlock": "0101",
+}
+
+vulnerability_ranking = {
+    "0001": 1,
+    "0010": 2,
+    "0011": 3,
+    "0100": 4,
+    "0101": 5,
+}
 
 
-def getTotalPercentageFromMatrix(matrix):
+def get_total_percentage(matrix):
+
+    if not matrix:
+        print("Matrix is empty")
+        return 0
+
+    
     """
     This function returns weighted percentage of the matrix based on the vulnerability mapping and ranking.
 

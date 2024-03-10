@@ -24,6 +24,7 @@ export default function Home() {
         code: placeholder,
         license: "MIT",
         size: placeholder.length,
+        language: "rust",
     });
 
     const onVulnerabilityClick = () => {

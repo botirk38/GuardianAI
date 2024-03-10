@@ -4,7 +4,7 @@ export async function POST(request) {
     console.log(data);
 
     try {
-        const response = await fetch("http://localhost:5000/submit-code", {
+        const response = await fetch("http://127.0.0.1:5000/analyze-code", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -22,9 +22,10 @@ export async function POST(request) {
                 },
             });
         } else {
-            const error = await response.json();
-            return new Response(JSON.stringify(error), {
-                status: 400,
+            const error = await response.text();
+            console.error(error);
+            return new Response(error, {
+                status: response.status,
                 headers: {
                     "Content-Type": "application/json",
                 },
