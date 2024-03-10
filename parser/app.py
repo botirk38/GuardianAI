@@ -26,12 +26,12 @@ def test_analyze():
     if vulnerability_found:
         response_data = {
             "vulnerability_found": "yes",
-            "details": vulnerability_found
+            "matrix": vulnerability_found
         }
     else:
         response_data = {
             "vulnerability_found": "no",
-            "details": []
+            "matrix": []
         }
 
     # Return the response data as JSON

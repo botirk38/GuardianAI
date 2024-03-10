@@ -1,7 +1,11 @@
-
+from ast_analysis.ast_matrix_builder import map_vulnerabilities_to_binary
+from ast_analysis.ast_mock_data import vulnerability_mapping
 
 def traverse_and_compare(node, patterns):
     found_vulnerabilities = []
+    binary_vulnerabilities = []
+
+
     
     if isinstance(node, dict):
         for pattern in patterns:
@@ -23,9 +27,15 @@ def compare_ast(submitted_ast, vulnerability_patterns):
     vulnerabilities_found = traverse_and_compare(submitted_ast["simplified_ast"]["children"], vulnerability_patterns)
 
     if vulnerabilities_found:
+        binary_vulnerabilities = map_vulnerabilities_to_binary(vulnerabilities_found, vulnerability_mapping)
         for vulnerability in vulnerabilities_found:
             print(f"Vulnerability found: {vulnerability[0]} in context: {vulnerability[1]}")
-            return vulnerabilities_found
+            return binary_vulnerabilities
+        for binary in binary_vulnerabilities:
+            print(f"Binary Vulnerability: {binary}")
     else:
         print("No vulnerabilities found.")
+        binary_vulnerabilities = [['0000']]
+
+    return binary_vulnerabilities
 
