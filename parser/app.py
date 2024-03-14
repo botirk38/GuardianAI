@@ -5,11 +5,41 @@ from ast_analysis.ast_mock_data import mock_ast, rawdata
 from ast_analysis.ast_comparer import compare_ast
 from ast_analysis.ast_simplfy import simplify_ast, fetch_ast, post_code
 from ast_analysis.ast_mock_data import attack_mapping
-from settings import app
 from ast_analysis.build_percentage import get_total_percentage
+from flask_cors import CORS
+from flask.cli import with_appcontext
+import click
+import csv
+
+app = Flask(__name__)
+CORS(app)
+
+@app.cli.command("build_csv")
+@click.argument('filename')
+@with_appcontext
+def build_csv(filename):
+    with open(filename, 'w', newline='') as f:
+        writer = csv.writer(f)
+        for _ in range(1):
+            data = fetch_ast()
+            print("Data:", data)
+            if data:
+                ast = data.get('Tree:')
+                print("AST:", ast)  
+                code_sample = data.get('Code:')
+                print("Code sample:", code_sample)
+                normalized_ast = simplify_ast(ast)
+                if normalized_ast:
+                    vulnerability_matrix = compare_ast(normalized_ast, vulnerability_pattern)
+                    if vulnerability_matrix:
+                        for row in vulnerability_matrix:
+                            writer.writerow(row + [code_sample])
+
+    click.echo(f'CSV file {filename} has been created.')
+    return filename
 
 
-@app.cli.command("populate_db")
+
 def fetch_ast():
     """Fetches AST and populates the database."""
     url = "http://localhost:8080/processing-service/process-code/rust"
@@ -19,9 +49,10 @@ def fetch_ast():
 
         if response.status_code == 200:
             data = response.json()
-            print("Data:", data)
             # db.session.add(data)
             # db.session.commit()
+
+            return data
 
         else:
             print(f"Failed to fetch AST: {response.status_code}")

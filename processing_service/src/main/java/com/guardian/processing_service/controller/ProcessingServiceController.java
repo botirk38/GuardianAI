@@ -40,7 +40,7 @@ public class ProcessingServiceController {
                     .body(Map.of("error", "Invalid code sample or language not supported"));
         }
 
-        CodeSample codeSample = restTemplate.getForObject("http://localhost:5001/fetch-code-sample",
+        CodeSample codeSample = restTemplate.getForObject("http://localhost:5000/fetch-code-sample",
                 RustCodeSample.class);
 
         logger.debug("Code Sample: " + codeSample.toString());
@@ -54,12 +54,12 @@ public class ProcessingServiceController {
 
         Map<String, Object> tree = processingService.processCode(codeSample);
         Map<String, Object> result = new HashMap<>();
-        
-        result.put("Code: ", codeSample.getCode());
-        result.put("Tree: ", tree);
+
+        result.put("Code:", codeSample.getCode());
+        result.put("Tree:", tree);
         logger.debug("Result: " + result.toString());
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok().body(result);
 
     }
 
