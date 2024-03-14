@@ -20,13 +20,6 @@ def fetch_ast():
 
 
 
-
-
-    
-
-
-
-
 def post_code(data):
     url = "http://localhost:8080/processing-service/analyze-code"
 
