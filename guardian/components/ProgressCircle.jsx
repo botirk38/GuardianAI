@@ -13,12 +13,7 @@ const ProgressCircle = ({ percentage }) => {
 
     return (
         <div className="relative">
-            <svg
-                width="300"
-                height="300"
-                viewBox="0 0 200 200"
-                className=""
-            >
+            <svg width="300" height="300" viewBox="0 0 200 200" className="">
                 <circle // Base circle
                     r={radius}
                     cx="100"
@@ -44,7 +39,9 @@ const ProgressCircle = ({ percentage }) => {
 
             <label className="text-white absolute top-32 left-28 text-center">
                 {percentage}%<br />
-                <span className="text-sm text-blue-500 font-bold">Invulnerable</span>
+                <span className="text-sm text-blue-500 font-bold">
+                    Invulnerable
+                </span>
             </label>
         </div>
     );

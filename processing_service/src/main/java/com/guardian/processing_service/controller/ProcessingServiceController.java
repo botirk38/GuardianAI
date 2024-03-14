@@ -1,8 +1,8 @@
 package com.guardian.processing_service.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +52,14 @@ public class ProcessingServiceController {
                     .body(Map.of("error", "Invalid code sample or language not supported"));
         }
 
-        Map<String, Object> result = processingService.processCode(codeSample);
+        Map<String, Object> tree = processingService.processCode(codeSample);
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("Code:", codeSample.getCode());
+        result.put("Tree:", tree);
         logger.debug("Result: " + result.toString());
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok().body(result);
 
     }
 

@@ -47,7 +47,6 @@ def create_app():
         click.echo("Database populated with Rust code samples.")
 
     @app.route("/fetch-code-sample", methods=['GET'])
-    @cache.cached(timeout=60, key_prefix='code_sample')
     def get_code_sample():
 
         try:
@@ -65,6 +64,9 @@ def create_app():
 
                 }
                 print(response)
+
+                db.session.delete(sample)
+                db.session.commit()
                 return jsonify(response)
 
             else:
