@@ -2,7 +2,6 @@ package com.guardian.processing_service.controller;
 
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +39,7 @@ public class ProcessingServiceController {
                     .body(Map.of("error", "Invalid code sample or language not supported"));
         }
 
-        CodeSample codeSample = restTemplate.getForObject("http://localhost:5000/fetch-code-sample",
+        CodeSample codeSample = restTemplate.getForObject("http://localhost:5001/fetch-code-sample",
                 RustCodeSample.class);
 
         logger.debug("Code Sample: " + codeSample.toString());
@@ -53,6 +52,7 @@ public class ProcessingServiceController {
         }
 
         Map<String, Object> result = processingService.processCode(codeSample);
+        result.put("Code: ", codeSample.getCode());
         logger.debug("Result: " + result.toString());
 
         return ResponseEntity.ok(result);
