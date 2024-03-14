@@ -20,20 +20,13 @@ CORS(app)
 def build_csv(filename):
     with open(filename, 'w', newline='') as f:
         writer = csv.writer(f)
-        for _ in range(1):
+        for _ in range(10000):
             data = fetch_ast()
-            print("Data:", data)
             if data:
-                ast = data.get('Tree:')
-                print("AST:", ast)  
                 code_sample = data.get('Code:')
                 print("Code sample:", code_sample)
-                normalized_ast = simplify_ast(ast)
-                if normalized_ast:
-                    vulnerability_matrix = compare_ast(normalized_ast, vulnerability_pattern)
-                    if vulnerability_matrix:
-                        for row in vulnerability_matrix:
-                            writer.writerow(row + [code_sample])
+                if code_sample:
+                    writer.writerow([code_sample]) 
 
     click.echo(f'CSV file {filename} has been created.')
     return filename
