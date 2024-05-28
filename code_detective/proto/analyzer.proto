@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package analyzer;
+
+service Analyzer {
+  rpc AnalyzeContract (AnalyzeRequest) returns (AnalyzeResponse);
+}
+
+message AnalyzeRequest {
+  string code = 1;
+}
+
+message AnalyzeResponse {
+  string features_json = 1;
+}
+
