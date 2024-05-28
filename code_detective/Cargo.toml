@@ -1,0 +1,32 @@
+
+[package]
+name = "code-detective"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]] 
+name = "code-detective-server"
+path = "src/server.rs"
+
+[[bin]] 
+name = "code-detective-client"
+path = "src/client.rs"
+
+
+[dependencies]
+actix-web = "4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+env_logger = "0.9"
+diesel = { version = "1.4.8", features = ["postgres", "r2d2", "chrono"] }
+dotenv = "0.15.0"
+syn = {version = "1.0", features = ["full"]} 
+quote = "1.0.36"
+tonic = "0.11"
+prost = "0.12"
+tokio = { version = "1", features = ["full"] }
+
+[build-dependencies]
+tonic-build = "0.11"
+
