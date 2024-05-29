@@ -3,7 +3,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 First, run the development server:
+<<<<<<< HEAD
 
+=======
+np
+>>>>>>> c23e90a2614a191bbca99df50b9bfdeef8ac31ab
 ```bash
 npm run dev
 # or
