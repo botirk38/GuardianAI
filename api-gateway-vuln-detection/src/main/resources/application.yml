@@ -1,13 +1,17 @@
 spring:
-  cloud:
-    gateway:
-      routes:
-        - id: feature-extractor-service
-          uri: http://0.0.0.0:50051
-          predicates:
-            - Path=/feature-extractor/**
-          filters:
-            - StripPrefix=1
-server:
-  port: 8080
+    cloud:
+        gateway:
+            routes:
+                - id: feature-extractor-service
+                  uri: http://0.0.0.0:50051
+                  predicates:
+                      - Path=/feature-extractor/**
+                  filters:
+                      - StripPrefix=1
 
+okta:
+    oauth2:
+        issuer: https://dev-az3di7fabdoc8vlz.uk.auth0.com/
+        audience: https://safe-contracts/
+server:
+    port: 8080
