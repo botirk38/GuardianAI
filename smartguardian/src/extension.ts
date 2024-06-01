@@ -1,42 +1,73 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 
-export async function authenticate() {
-    try {
-        const response = await axios.post(
-            "https://dev-az3di7fabdoc8vlz.uk.auth0.com/oauth/token",
-            {
-                grant_type: "client_credentials",
-                client_id: "9zGwJmZxqizhEIzIlGLYlC81kMusclKN",
-                client_secret:
-                    "6sksG7huhI1Tv1IrFiE6pWOAmJyBlLhSJ1d7xJnNT7xT1unD0cSXGN71fGnxOn3h",
-                audience: "https://safe-contracts/",
-            }
-        );
+const AUTH0_DOMAIN = "dev-az3di7fabdoc8vlz.uk.auth0.com";
+const CLIENT_ID = "BBVCZqG7W4JzbFlhpZDNeRVwV4W2PdPq";
+const CALLBACK_URI = "vscode://your-extension-id/callback";
 
-        const token = response.data.access_token;
-
-        if (!token) {
-            vscode.window.showErrorMessage("Failed to authenticate");
-            await redirectToLogin();
-            return;
-        }
-
-        vscode.window.showInformationMessage("Authenticated successfully");
-        return token;
-    } catch (error) {
-        vscode.window.showErrorMessage("Failed to authenticate");
-        await redirectToLogin();
+export async function authenticate(context: vscode.ExtensionContext) {
+    const existingToken = await context.secrets.get("auth_token");
+    if (existingToken) {
+        vscode.window.showInformationMessage("Already authenticated");
+        return existingToken;
     }
-}
-export async function redirectToLogin() {
-    const loginUrl = "https://dev-az3di7fabdoc8vlz.uk.auth0.com/login";
+
+    const state = uuidv4();
+    context.workspaceState.update("auth_state", state);
+
+    const loginUrl = `https://${AUTH0_DOMAIN}/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${CALLBACK_URI}&state=${state}`;
+
     vscode.env.openExternal(vscode.Uri.parse(loginUrl));
+
+    const token = await new Promise<string | undefined>((resolve) => {
+        const disposable = vscode.window.registerUriHandler({
+            handleUri: (uri: vscode.Uri) => {
+                const token = getTokenFromUri(uri, context);
+                if (token) {
+                    context.secrets.store("auth_token", token);
+                    resolve(token);
+                } else {
+                    resolve(undefined);
+                }
+                disposable.dispose();
+            },
+        });
+        context.subscriptions.push(disposable);
+    });
+
+    if (!token) {
+        vscode.window.showErrorMessage("Authentication failed");
+        return null;
+    }
+
+    return token;
 }
 
-export async function callApiWithSelectedText() {
+function getTokenFromUri(
+    uri: vscode.Uri,
+    context: vscode.ExtensionContext
+): string | null {
+    const fragment = uri.fragment;
+    const params = new URLSearchParams(fragment);
+    const token = params.get("access_token");
+    const state = params.get("state");
+    const storedState = context.workspaceState.get("auth_state");
+
+    if (state !== storedState) {
+        vscode.window.showErrorMessage(
+            "State mismatch. Potential CSRF attack."
+        );
+        return null;
+    }
+
+    context.workspaceState.update("auth_state", undefined);
+    return token;
+}
+
+export async function callApiWithSelectedText(
+    context: vscode.ExtensionContext
+) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage("No editor is active");
@@ -51,7 +82,7 @@ export async function callApiWithSelectedText() {
         return;
     }
 
-    const token = await authenticate();
+    const token = await authenticate(context);
     if (!token) {
         return;
     }
@@ -59,14 +90,8 @@ export async function callApiWithSelectedText() {
     try {
         const response = await axios.post(
             "https://api-gateway.com/protected-endpoint",
-            {
-                data: selectedText,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
+            { data: selectedText },
+            { headers: { Authorization: `Bearer ${token}` } }
         );
 
         vscode.window.showInformationMessage(
@@ -78,22 +103,14 @@ export async function callApiWithSelectedText() {
 }
 
 // This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
     console.log(
         'Congratulations, your extension "smartguardian" is now active!'
     );
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
     let disposableHelloWorld = vscode.commands.registerCommand(
         "smartguardian.helloWorld",
         () => {
-            // The code you place here will be executed every time your command is executed
-            // Display a message box to the user
             vscode.window.showInformationMessage(
                 "Hello World from SmartGuardian!"
             );
@@ -103,8 +120,7 @@ export function activate(context: vscode.ExtensionContext) {
     let disposableCallApi = vscode.commands.registerCommand(
         "smartguardian.detectVulnerabilities",
         async () => {
-            // Call the API with the selected text
-            await callApiWithSelectedText();
+            await callApiWithSelectedText(context);
         }
     );
 

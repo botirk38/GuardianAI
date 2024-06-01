@@ -1,9 +1,25 @@
 # Change Log
 
-All notable changes to the "smartguardian" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+All notable changes to the "SmartGuardian" extension will be documented in this file.
 
 ## [Unreleased]
 
-- Initial release
+### Added
+- Initial release of SmartGuardian.
+- Detection of common vulnerabilities in Solana smart contracts.
+- Suggestions for fixing detected vulnerabilities.
+- Integration with VS Code to provide real-time feedback as you write code.
+
+### Changed
+- N/A
+
+### Fixed
+- N/A
+
+## [0.0.1] - YYYY-MM-DD
+
+### Added
+- Initial release of SmartGuardian.
+- Detection of common vulnerabilities in Solana smart contracts.
+- Suggestions for fixing detected vulnerabilities.
+- Integration with VS Code to provide real-time feedback as you write code.
