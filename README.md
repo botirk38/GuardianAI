@@ -2,7 +2,7 @@
 
 # Project: Safe Contracts API
 
-This project consists of a Spring Cloud Gateway application (`api_gateway_vuln_detection`) and a Rust-based service (`code_detective`). The gateway routes requests to the `code_detective` service and handles OAuth2 authentication and rate limiting using Redis.
+Safe Contracts is a tool that analyzes smart contracts for security vulnerabilities. It uses static analysis to detect common security issues in Solana code. The tool is accessible through an API that can be used to analyze smart contracts programmatically.
 
 ## Table of Contents
 
