@@ -1,0 +1,26 @@
+
+services:
+  gateway:
+    build:
+      context: ./api-gateway-vuln-detection
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - code-detective
+      - redis
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+
+  code-detective:
+    build:
+      context: ./code_detective
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"

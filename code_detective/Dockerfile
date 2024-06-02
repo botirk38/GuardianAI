@@ -27,11 +27,11 @@ FROM rust:latest
 WORKDIR /usr/local/bin
 
 # Copy the compiled binary from the builder stage
-COPY --from=builder /usr/src/target/release/code-detective-server .
+COPY --from=builder /usr/src/target/release/code-detective .
 
 # Expose the port on which the gRPC service will run
 EXPOSE 50051
 
 # Command to run the binary
-CMD ["./code-detective-server"]
+CMD ["./code-detective"]
 

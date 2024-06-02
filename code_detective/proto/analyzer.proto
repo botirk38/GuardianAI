@@ -7,10 +7,9 @@ service Analyzer {
 }
 
 message AnalyzeRequest {
-  string code = 1;
-}
-
-message AnalyzeResponse {
   string features_json = 1;
 }
 
+message AnalyzeResponse {
+  string vulnerabilities_json = 1;
+}
