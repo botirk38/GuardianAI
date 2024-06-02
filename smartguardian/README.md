@@ -1,7 +1,7 @@
 
-# SmartGuardian
+# Safe Contracts
 
-This is the README for your extension "SmartGuardian". After writing up a brief description, we recommend including the following sections.
+SmartGuardian is a Visual Studio Code extension that helps you write secure Solana smart contracts by scanning your code for potential security vulnerabilities.
 
 ## Features
 

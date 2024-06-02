@@ -1,17 +1,34 @@
 spring:
-    cloud:
-        gateway:
-            routes:
-                - id: feature-extractor-service
-                  uri: http://0.0.0.0:50051
-                  predicates:
-                      - Path=/feature-extractor/**
-                  filters:
-                      - StripPrefix=1
+  cloud:
+    gateway:
+      routes:
+        - id: code-detective
+          uri: http://localhost:8081
+          predicates:
+            - Path=/code-detective/{segment}
+          filters:
+            - StripPrefix=1
 
 okta:
-    oauth2:
-        issuer: https://dev-az3di7fabdoc8vlz.uk.auth0.com/
-        audience: https://safe-contracts/
+  oauth2:
+    issuer: https://dev-az3di7fabdoc8vlz.uk.auth0.com/
+    audience: https://safe-contracts/
+
 server:
-    port: 8080
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
+    reactor.netty: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
