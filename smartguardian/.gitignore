@@ -1,0 +1,44 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore build output directories
+out/
+dist/
+
+# Ignore TypeScript compiled JavaScript files
+*.js
+*.js.map
+
+# Ignore log files
+*.log
+
+# Ignore environment variables files
+.env
+.env.local
+.env.*.local
+
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore npm and Yarn lock files (optional, include if you're using one or the other)
+package-lock.json
+yarn.lock
+
+# Ignore coverage files
+coverage/
+.nyc_output/
+
+# Ignore temporary files
+tmp/
+temp/
+
+# Ignore IDE-specific files
+.idea/
+
+# Ignore any other files you want to exclude
+.vscode-test/
+
