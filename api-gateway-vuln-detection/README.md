@@ -111,7 +111,7 @@ You can also run the application using Docker and Docker Compose.
     cd ..
     docker build -t api_gateway_vuln_detection .
     ```
-# Its highly recommended to run the docker compose at the root of the project
+#### Its highly recommended to run the docker compose at the root of the project
 
 
 
