@@ -1,6 +1,6 @@
 
 
-# Project: API Gateway and Code Detective
+# Project: Safe Contracts API
 
 This project consists of a Spring Cloud Gateway application (`api_gateway_vuln_detection`) and a Rust-based service (`code_detective`). The gateway routes requests to the `code_detective` service and handles OAuth2 authentication and rate limiting using Redis.
 
