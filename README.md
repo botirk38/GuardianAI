@@ -35,11 +35,8 @@ Before you begin, ensure you have the following installed on your machine:
 
 To build and run the services using Docker Compose, follow these steps:
 
-1. **Navigate to the root directory of your project:**
+1. **Navigate to the root directory of the project:**
 
-    ```bash
-    cd your-repo
-    ```
 
 2. **Build and run the containers:**
 
