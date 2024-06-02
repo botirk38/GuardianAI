@@ -30,7 +30,7 @@ Before you begin, ensure you have the following installed on your machine:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/your-repo.git
+    git clone https://github.com/botirk38/GuardianAI.git
     cd your-repo/api_gateway
     ```
 
