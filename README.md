@@ -76,7 +76,7 @@ Replace `YOUR_JWT_TOKEN` with a valid JWT token and `{"code": "your code here"}`
 
 ### Using the Extension
 
-If you have an extension that interacts with the API, configure it to point to `http://localhost:8080/code-detective/analyze_code` and ensure it includes the necessary authorization headers.
+You can also use the Safe Contracts Vscode extension that interacts with the API, configure it to point to `http://localhost:8080/code-detective/analyze_code` and ensure it includes the necessary authorization headers.
 
 ## Troubleshooting
 
