@@ -7,13 +7,13 @@ const CLIENT_ID = "BBVCZqG7W4JzbFlhpZDNeRVwV4W2PdPq";
 const CLIENT_SECRET = "5XtekSVFh634T-e65llkg7RcZW4jQwaPsFvC9pMo053wKB2nVtfs2PusPp3B6lKS";
 const CALLBACK_URI = "vscode://smart-guardian.safeContracts/callback";
 
-const safe_contracts_api_CLIENT_ID = "NFb8mHU35GjKHcZHahYaV5CaW66o2LAb";
-const safe_contracts_api_CLIENT_SECRET = "1GmsJcQAIxCWNOGHyVMTJmZvRmMh2KfxCSKR1vpt_v_VlJZkxBYcsYG_3-HKO8Lq";
+let statusBarItem: vscode.StatusBarItem;
 
 export async function authenticate(context: vscode.ExtensionContext) {
     const existingToken = await context.secrets.get("auth_token");
     if (existingToken) {
         vscode.window.showInformationMessage("Already authenticated");
+        updateStatusBarItem(true);
         return existingToken;
     }
 
@@ -49,13 +49,11 @@ export async function authenticate(context: vscode.ExtensionContext) {
         return null;
     }
 
+    updateStatusBarItem(true);
     return token;
 }
 
-function getTokenFromUri(
-    uri: vscode.Uri,
-    context: vscode.ExtensionContext
-): string | null {
+function getTokenFromUri(uri: vscode.Uri, context: vscode.ExtensionContext): string | null {
     const fragment = uri.fragment;
     const params = new URLSearchParams(fragment);
     const token = params.get("access_token");
@@ -63,9 +61,7 @@ function getTokenFromUri(
     const storedState = context.workspaceState.get("auth_state");
 
     if (state !== storedState) {
-        vscode.window.showErrorMessage(
-            "State mismatch. Potential CSRF attack."
-        );
+        vscode.window.showErrorMessage("State mismatch. Potential CSRF attack.");
         return null;
     }
 
@@ -73,9 +69,7 @@ function getTokenFromUri(
     return token;
 }
 
-export async function callApiWithSelectedText(
-    context: vscode.ExtensionContext
-) {
+export async function callApiWithSelectedText(context: vscode.ExtensionContext) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         vscode.window.showErrorMessage("No editor is active");
@@ -97,59 +91,78 @@ export async function callApiWithSelectedText(
     }
 
     const api_auth_response = await axios.post(
-        'https://dev-az3di7fabdoc8vlz.uk.auth0.com/oauth/token'
-        , {
+        'https://dev-az3di7fabdoc8vlz.uk.auth0.com/oauth/token',
+        {
             client_id: CLIENT_ID,
             client_secret: CLIENT_SECRET,
             audience: "https://safe-contracts/",
             grant_type: "client_credentials"
         }
-
     );
 
     console.log("API auth response", api_auth_response.data);
 
     const api_auth_token = api_auth_response.data.access_token;
 
-
     console.log("Authenticated with token", api_auth_token);
 
-   const response = await axios.post(
-    "http://localhost:8080/feature-extractor/analyze_code", 
-    { code: selectedText },
-    { headers: { Authorization: `Bearer ${api_auth_token}` } }
-
-   );
+    const response = await axios.post(
+        "http://localhost:8080/feature-extractor/analyze_code",
+        { code: selectedText },
+        { headers: { Authorization: `Bearer ${api_auth_token}` } }
+    );
 
     console.log("API response", response.data);
     vscode.window.showInformationMessage("API response: " + response.data);
 }
 
-// This method is called when your extension is activated
+// Update the status bar item
+function updateStatusBarItem(isAuthenticated: boolean) {
+    if (isAuthenticated) {
+        statusBarItem.text = "$(person) Authenticated";
+        statusBarItem.command = "smartguardian.unauthenticate";
+    } else {
+        statusBarItem.text = "$(person) Not Authenticated";
+        statusBarItem.command = "smartguardian.authenticate";
+    }
+    statusBarItem.show();
+}
+
 export function activate(context: vscode.ExtensionContext) {
-    console.log(
-        'Congratulations, your extension "smartguardian" is now active!'
-    );
+    console.log('Congratulations, your extension "smartguardian" is now active!');
 
-    let disposableHelloWorld = vscode.commands.registerCommand(
-        "smartguardian.helloWorld",
-        () => {
-            vscode.window.showInformationMessage(
-                "Hello World from SmartGuardian!"
-            );
-        }
-    );
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
+    context.subscriptions.push(statusBarItem);
 
-    let disposableCallApi = vscode.commands.registerCommand(
-        "smartguardian.detectVulnerabilities",
-        async () => {
-            await callApiWithSelectedText(context);
-        }
-    );
+    let disposableHelloWorld = vscode.commands.registerCommand("smartguardian.helloWorld", () => {
+        vscode.window.showInformationMessage("Hello World from SmartGuardian!");
+    });
+
+    let disposableCallApi = vscode.commands.registerCommand("smartguardian.detectVulnerabilities", async () => {
+        await callApiWithSelectedText(context);
+    });
+
+    let disposableUnauthenticate = vscode.commands.registerCommand("smartguardian.unauthenticate", async () => {
+        await context.secrets.delete("auth_token");
+        updateStatusBarItem(false);
+        vscode.window.showInformationMessage("Unauthenticated successfully");
+    });
+
+    let disposableAuthenticate = vscode.commands.registerCommand("smartguardian.authenticate", async () => {
+        await authenticate(context);
+    });
 
     context.subscriptions.push(disposableHelloWorld);
     context.subscriptions.push(disposableCallApi);
+    context.subscriptions.push(disposableUnauthenticate);
+    context.subscriptions.push(disposableAuthenticate);
+
+    // Initialize status bar item
+    const existingToken = context.secrets.get("auth_token");
+    existingToken.then(token => {
+        updateStatusBarItem(!!token);
+    });
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
+
