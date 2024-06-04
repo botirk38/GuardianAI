@@ -5,11 +5,14 @@ import Open_servce_pb2
 import Open_servce_pb2_grpc
 import os
 
+# Initialize OpenAI client
 openai = OpenAI()
 class OpenAIServiceServicer(Open_servce_pb2_grpc.OpenAIServiceServicer):
+    # Define the AnalyzeCode method, which takes a request containing Rust smart contract code
     def AnalyzeCode(self, request, context):
         try:
             prompt = f"Find vulnerabilities in the following Rust smart contract code and generate a report:\n\n{request.code}"
+            # Make the OpenAI API call
             response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
@@ -17,6 +20,7 @@ class OpenAIServiceServicer(Open_servce_pb2_grpc.OpenAIServiceServicer):
                     {"role": "user", "content": prompt}
                 ]
             )
+            # Extract the result from the response
             result = response.choices[0].message.content
             return Open_servce_pb2.AnalyzeCodeResponse(vulnerabilities=result)
         
