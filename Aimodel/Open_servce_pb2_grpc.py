@@ -12,7 +12,7 @@ SCHEDULED_RELEASE_DATE = 'June 25, 2024'
 _version_not_supported = False
 
 try:
-    from grpc._utilities import first_version_is_lower
+    from grpc._utilities import first_version_is_lower # type: ignore
     _version_not_supported = first_version_is_lower(GRPC_VERSION, GRPC_GENERATED_VERSION)
 except ImportError:
     _version_not_supported = True
