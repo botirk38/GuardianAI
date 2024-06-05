@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
         "./parser/ast_analysis"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
