@@ -2,7 +2,7 @@
 services:
   gateway:
     build:
-      context: ./api-gateway-vuln-detection
+      context: ./api-gateway-code-detective
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
@@ -15,7 +15,7 @@ services:
 
   code-detective:
     build:
-      context: ./code_detective
+      context: ./code-detective
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
@@ -25,7 +25,7 @@ services:
       context: ./code-detective-model
       dockerfile: Dockerfile 
     ports:
-      -"5051:5051"
+      - "5051:5051"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
 
