@@ -7,6 +7,8 @@ venv/
 # Ignore node_modules in case of web projects
 node_modules/
 
+*.env
+
 # Ignore other large files or personal files
 *.log
 *.csv
