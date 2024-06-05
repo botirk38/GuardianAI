@@ -20,6 +20,13 @@ services:
     ports:
       - "8081:8081"
 
+  code-detective-model:
+    build:
+      context: ./code-detective-model
+      dockerfile: Dockerfile 
+    ports:
+      -"5051:5051"
+
   redis:
     image: redis:latest
     ports:
