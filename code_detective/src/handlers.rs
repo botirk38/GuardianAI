@@ -9,6 +9,7 @@ pub struct SmartContract {
 
 pub async fn analyze_code_handler(smart_contract: web::Json<SmartContract>) -> impl Responder {
     let code_features = analyze_code(&smart_contract.code);
+    println!("Code features {:?}", code_features);
 
     match detect_vulnerabilities(code_features).await {
         Ok(vulnerabilities) => HttpResponse::Ok().json(vulnerabilities),
