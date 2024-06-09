@@ -1,16 +1,15 @@
-// openai_service.proto
 syntax = "proto3";
 
-package openai;
+package analyzer;
 
-service OpenAIService {
-  rpc AnalyzeCode(AnalyzeCodeRequest) returns (AnalyzeCodeResponse) {}
+service Analyzer {
+  rpc AnalyzeContract (AnalyzeRequest) returns (AnalyzeResponse);
 }
 
-message AnalyzeCodeRequest {
-  string code = 1;
+message AnalyzeRequest {
+  string features_json = 1;
 }
 
-message AnalyzeCodeResponse {
-  string vulnerabilities = 1;
+message AnalyzeResponse {
+  string vulnerabilities_json = 1;
 }

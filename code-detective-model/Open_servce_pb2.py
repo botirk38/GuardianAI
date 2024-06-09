@@ -14,17 +14,17 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11Open_servce.proto\x12\x06openai\"\"\n\x12\x41nalyzeCodeRequest\x12\x0c\n\x04\x63ode\x18\x01 \x01(\t\".\n\x13\x41nalyzeCodeResponse\x12\x17\n\x0fvulnerabilities\x18\x01 \x01(\t2Y\n\rOpenAIService\x12H\n\x0b\x41nalyzeCode\x12\x1a.openai.AnalyzeCodeRequest\x1a\x1b.openai.AnalyzeCodeResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11Open_servce.proto\x12\x08\x61nalyzer\"\'\n\x0e\x41nalyzeRequest\x12\x15\n\rfeatures_json\x18\x01 \x01(\t\"/\n\x0f\x41nalyzeResponse\x12\x1c\n\x14vulnerabilities_json\x18\x01 \x01(\t2R\n\x08\x41nalyzer\x12\x46\n\x0f\x41nalyzeContract\x12\x18.analyzer.AnalyzeRequest\x1a\x19.analyzer.AnalyzeResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'Open_servce_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_ANALYZECODEREQUEST']._serialized_start=29
-  _globals['_ANALYZECODEREQUEST']._serialized_end=63
-  _globals['_ANALYZECODERESPONSE']._serialized_start=65
-  _globals['_ANALYZECODERESPONSE']._serialized_end=111
-  _globals['_OPENAISERVICE']._serialized_start=113
-  _globals['_OPENAISERVICE']._serialized_end=202
+  _globals['_ANALYZEREQUEST']._serialized_start=31
+  _globals['_ANALYZEREQUEST']._serialized_end=70
+  _globals['_ANALYZERESPONSE']._serialized_start=72
+  _globals['_ANALYZERESPONSE']._serialized_end=119
+  _globals['_ANALYZER']._serialized_start=121
+  _globals['_ANALYZER']._serialized_end=203
 # @@protoc_insertion_point(module_scope)

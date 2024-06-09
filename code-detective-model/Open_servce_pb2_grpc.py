@@ -5,14 +5,14 @@ import warnings
 
 import Open_servce_pb2 as Open__servce__pb2
 
-GRPC_GENERATED_VERSION = '1.64.0'
+GRPC_GENERATED_VERSION = '1.64.1'
 GRPC_VERSION = grpc.__version__
 EXPECTED_ERROR_RELEASE = '1.65.0'
 SCHEDULED_RELEASE_DATE = 'June 25, 2024'
 _version_not_supported = False
 
 try:
-    from grpc._utilities import first_version_is_lower # type: ignore
+    from grpc._utilities import first_version_is_lower
     _version_not_supported = first_version_is_lower(GRPC_VERSION, GRPC_GENERATED_VERSION)
 except ImportError:
     _version_not_supported = True
@@ -30,7 +30,7 @@ if _version_not_supported:
     )
 
 
-class OpenAIServiceStub(object):
+class AnalyzerStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -39,43 +39,43 @@ class OpenAIServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.AnalyzeCode = channel.unary_unary(
-                '/openai.OpenAIService/AnalyzeCode',
-                request_serializer=Open__servce__pb2.AnalyzeCodeRequest.SerializeToString,
-                response_deserializer=Open__servce__pb2.AnalyzeCodeResponse.FromString,
+        self.AnalyzeContract = channel.unary_unary(
+                '/analyzer.Analyzer/AnalyzeContract',
+                request_serializer=Open__servce__pb2.AnalyzeRequest.SerializeToString,
+                response_deserializer=Open__servce__pb2.AnalyzeResponse.FromString,
                 _registered_method=True)
 
 
-class OpenAIServiceServicer(object):
+class AnalyzerServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def AnalyzeCode(self, request, context):
+    def AnalyzeContract(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_OpenAIServiceServicer_to_server(servicer, server):
+def add_AnalyzerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'AnalyzeCode': grpc.unary_unary_rpc_method_handler(
-                    servicer.AnalyzeCode,
-                    request_deserializer=Open__servce__pb2.AnalyzeCodeRequest.FromString,
-                    response_serializer=Open__servce__pb2.AnalyzeCodeResponse.SerializeToString,
+            'AnalyzeContract': grpc.unary_unary_rpc_method_handler(
+                    servicer.AnalyzeContract,
+                    request_deserializer=Open__servce__pb2.AnalyzeRequest.FromString,
+                    response_serializer=Open__servce__pb2.AnalyzeResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'openai.OpenAIService', rpc_method_handlers)
+            'analyzer.Analyzer', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('openai.OpenAIService', rpc_method_handlers)
+    server.add_registered_method_handlers('analyzer.Analyzer', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class OpenAIService(object):
+class Analyzer(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def AnalyzeCode(request,
+    def AnalyzeContract(request,
             target,
             options=(),
             channel_credentials=None,
@@ -88,9 +88,9 @@ class OpenAIService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/openai.OpenAIService/AnalyzeCode',
-            Open__servce__pb2.AnalyzeCodeRequest.SerializeToString,
-            Open__servce__pb2.AnalyzeCodeResponse.FromString,
+            '/analyzer.Analyzer/AnalyzeContract',
+            Open__servce__pb2.AnalyzeRequest.SerializeToString,
+            Open__servce__pb2.AnalyzeResponse.FromString,
             options,
             channel_credentials,
             insecure,
