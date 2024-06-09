@@ -11,7 +11,16 @@ class AnalyzerServicer(Open_servce_pb2_grpc.AnalyzerServicer):
     # Define the AnalyzeCode method, which takes a request containing Rust smart contract code
     def AnalyzeContract(self, request, context):
         try: 
-            prompt = f"Find vulnerabilities in the following Rust smart contract code and generate a report:\n\n{request.features_json}"
+            prompt = (
+            f"Analyze the following Rust smart contract code for vulnerabilities. "
+            f"Provide only the vulnerabilities and their corresponding fixes in the following JSON format:\n\n"
+            f"{{\n"
+            f"  \"snippets\": [\"vuln1\", \"vuln2\"],\n"
+            f"  \"fixes\": [\"fix1\", \"fix2\"]\n"
+            f"}}\n\n"
+            f"Do not include any additional text outside this JSON format.\n\n"
+            f"Smart contract code:\n{request.features_json}"
+            )
             # Make the OpenAI API call
             response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
