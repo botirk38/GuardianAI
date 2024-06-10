@@ -43,7 +43,7 @@ class AnalyzerServicer(Open_servce_pb2_grpc.AnalyzerServicer):
                                   code_features.get('static_variables', []))
             prompt += add_section("Enums", code_features.get('enums', []))
 
-            prompt += "\nGenerate a JSON with an array 'snippets' where for each 'snippet' which is a JSON object has attributes 'code': containing vulnerable code , 'fixes' containing the snippet with fixes for each vulnerability , and 'description' containing the description for each vulnerability."
+            prompt += "\nGenerate a JSON with an array 'snippets' where for each 'snippet' which is a JSON object has attributes 'code': containing vulnerable code , 'fixes' containing the code snippet with fixes for the vulnerability , and 'description' containing the description for each vulnerability."
             prompt += "Your response should be only the json you generate."
 
             # Make the OpenAI API call
