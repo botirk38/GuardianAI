@@ -122,7 +122,8 @@ export async function callApiWithSelectedText(context: vscode.ExtensionContext):
     return;
   }
 
-  let vulnerableSnippets = response.data;
+  let data = response.data.vulnerabilities;
+  let vulnerableSnippets = data.snippets
   let activeEditor = vscode.window.activeTextEditor;
   if (activeEditor) {
     let doc = activeEditor.document;
@@ -146,7 +147,7 @@ export async function callApiWithSelectedText(context: vscode.ExtensionContext):
         let word = document.getText(range);
         for (let snippet of vulnerableSnippets) {
           if (snippet.code.includes(word)) {
-            return new vscode.Hover(`Vulnerability: ${snippet.vulnerability}`);
+            return new vscode.Hover(`Vulnerability: ${snippet.description}`);
           }
         }
         return null;
@@ -163,11 +164,11 @@ export async function callApiWithSelectedText(context: vscode.ExtensionContext):
         for (let snippet of vulnerableSnippets) {
           if (snippet.code.includes(word)) {
             let action = new vscode.CodeAction(
-              `Fix vulnerability: ${snippet.vulnerability}`,
+              `Fix vulnerability: ${snippet.description}`,
               vscode.CodeActionKind.QuickFix
             );
             action.edit = new vscode.WorkspaceEdit();
-            action.edit.replace(document.uri, range, snippet.fix);
+            action.edit.replace(document.uri, range, snippet.fixes);
             action.command = {
               command: "removeDecoration",
               title: "Remove decoration",
