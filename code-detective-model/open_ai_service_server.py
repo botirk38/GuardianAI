@@ -1,53 +1,41 @@
-from openai import OpenAI, ChatCompletion
+from openai import OpenAI
 import grpc
 from concurrent import futures
 import Open_servce_pb2
 import Open_servce_pb2_grpc
-import os
 
 # Initialize OpenAI client
 openai = OpenAI()
+
+
 class AnalyzerServicer(Open_servce_pb2_grpc.AnalyzerServicer):
-    # Define the AnalyzeCode method, which takes a request containing Rust smart contract code
     def AnalyzeContract(self, request, context):
-        try: 
-            prompt = (
-            f"Analyze the following Rust smart contract code for vulnerabilities. "
-            f"Provide only the vulnerabilities and their corresponding fixes in the following JSON format:\n\n"
-            f"{{\n"
-            f"  \"snippets\": [\"vuln1\", \"vuln2\"],\n"
-            f"  \"fixes\": [\"fix1\", \"fix2\"]\n"
-            f"}}\n\n"
-            f"Do not include any additional text outside this JSON format.\n\n"
-            f"Smart contract code:\n{request.features_json}"
-            )
-            # Make the OpenAI API call
+        try:
+            prompt = f"Find vulnerabilities in the following Rust smart contract code and generate a report:\n\n{request.features_json}"
             response = openai.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant. smart contract code vulnerability detection."},
                     {"role": "user", "content": prompt}
                 ]
             )
-            # Extract the result from the response
-            print("response")
             result = response.choices[0].message.content
-            print(f"Result: {result}")
             return Open_servce_pb2.AnalyzeResponse(vulnerabilities_json=result)
-        
         except Exception as e:
-            print(f"An error occurred: {e}")
-            return Open_servce_pb2.AnalyzeResponse(vulnerabilities_json="Error occurred during analysis")
-        
-        
+            error_msg = f"An error occured {e}"
+            return Open_servce_pb2.AnalyzeResponse(vulnerabilities_json=error_msg)
+
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    Open_servce_pb2_grpc.add_AnalyzerServicer_to_server(AnalyzerServicer(), server)
+    Open_servce_pb2_grpc.add_AnalyzerServicer_to_server(
+        AnalyzerServicer(), server)
     server.add_insecure_port('[::]:50051')
     server.start()
     print("Server started")
     server.wait_for_termination()
 
+
 if __name__ == '__main__':
     serve()
+
