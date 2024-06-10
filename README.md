@@ -40,8 +40,8 @@ To build and run the services using Docker Compose, follow these steps:
 
 2. **Build and run the containers:**
 
-    ```bash
-    docker-compose up --build
+     ```bash
+  docker-compose -f docker-compose.yml -f docker-compose.staging.yml up --build
     ```
 
 This will start the Spring Cloud Gateway on `http://localhost:8080` and the `code-detective` service on `http://localhost:8081`.
