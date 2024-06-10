@@ -1,12 +1,12 @@
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: staging
   cloud:
     gateway:
       routes:
         - id: code-detective
-          uri: http://localhost:8081
+          uri: http://code-detective:8081
           predicates:
             - Path=/code-detective/{segment}
           filters:
@@ -35,3 +35,4 @@ management:
   endpoint:
     health:
       show-details: always
+

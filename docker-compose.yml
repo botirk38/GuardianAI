@@ -8,6 +8,7 @@ services:
       - "8080:8080"
     depends_on:
       - code-detective
+      - code-detective-model
       - redis
     environment:
       SPRING_REDIS_HOST: redis
@@ -19,13 +20,17 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+    environment:
+      GRPC_SERVER_URL: "http://[::1]:50051"
+    depends_on:
+      - code-detective-model
 
   code-detective-model:
     build:
       context: ./code-detective-model
       dockerfile: Dockerfile 
     ports:
-      - "5051:5051"
+      - "50051:50051"
     environment:
       OPENAI_API_KEY: ${OPENAI_API_KEY}
 
