@@ -12,6 +12,13 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: code-detective-model
+          uri: ws://code-detective-model:8000
+          predicates:
+            - Path=/code-detective-model/ws/{segment}
+          filters:
+            - StripPrefix=1
+
 okta:
   oauth2:
     issuer: https://dev-az3di7fabdoc8vlz.uk.auth0.com/

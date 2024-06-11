@@ -1,18 +1,19 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+FROM python:3.9
 
-# Set the working directory in the container
+# Install your dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Install dockerize
+RUN apt-get update && apt-get install -y wget && \
+  wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz && \
+  tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz && \
+  rm dockerize-linux-amd64-v0.6.1.tar.gz
+
+# Copy your application code
+COPY . /app
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Run the application using dockerize to wait for Kafka
+ENTRYPOINT ["dockerize", "-wait", "tcp://kafka:9092", "-timeout", "60s", "python", "main.py"]
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Make port 50051 available to the world outside this container
-EXPOSE 50051
-
-
-# Run the application
-CMD ["python", "open_ai_service_server.py"]

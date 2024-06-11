@@ -39,7 +39,17 @@ Ensure you have the following installed:
 
 3. **Run the Docker Container**:
     ```sh
-    docker run -p 50051:50051 code_detective
+    docker run -p 8081:8081 code_detective
+    ```
+
+4. **Run Zookeeper**:
+    ```sh
+    zookeeper-server-start /opt/homebrew/etc/kafka/zookeeper.properties
+    ```
+
+5. **Run Kafka**:
+    ```sh
+    kafka-server-start /opt/homebrew/etc/kafka/server.properties
     ```
 
 ### Usage
@@ -49,7 +59,7 @@ You can interact with the Code Detective service using a simple HTTP interface. 
 #### Example `curl` Request
 
 ```sh
-curl -X POST http://localhost:50051/analyze -d '{
+curl -X POST http://localhost:8081/analyze_code -d '{
     "code": "
         pub fn transfer(&mut self, amount: u64) {
             if self.is_frozen() {
@@ -64,10 +74,12 @@ curl -X POST http://localhost:50051/analyze -d '{
 }'
 ```
 
+#### Then listen on the websocket for the response. Check out code-detective-model for more info.
+
 ### Code Structure
 
 - **src/ast.rs**: Contains the AST parsing logic.
-- **src/engine.rs**: Contains logic for detecting vulnerabilities
+- **src/engine.rs**: Contains logic for detecting vulnerabilities.
 - **src/tests/**: Contains tests for the service.
 
 ### Contributing
@@ -82,4 +94,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For any questions or support, please contact [your-email@example.com].
 
-.
+

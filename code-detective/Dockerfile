@@ -1,37 +1,20 @@
-# Use the official Rust image as the base image for building
-FROM rust:latest as builder
-
-# Install dependencies required for protobuf and gRPC
-RUN apt-get update && \
-    apt-get install -y \
-    protobuf-compiler \
-    libprotobuf-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set the working directory inside the container
-WORKDIR /usr/src
-
-# Copy the entire project directory into the container
-COPY . .
-
-# Build the project in release mode
-RUN cargo build --release
-
-# Run the tests
-RUN cargo test --release
-
-# Stage 2: Use the same base image as the build stage to avoid GLIBC version issues
 FROM rust:latest
 
-# Set the working directory inside the container
-WORKDIR /usr/local/bin
+# Install dockerize
+RUN apt-get update && apt-get install -y wget && \
+  wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz && \
+  tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz && \
+  rm dockerize-linux-amd64-v0.6.1.tar.gz
 
-# Copy the compiled binary from the builder stage
-COPY --from=builder /usr/src/target/release/code-detective .
+# Create app directory
+WORKDIR /app
 
-# Expose the port on which the gRPC service will run
-EXPOSE 50051
+# Copy the rest of the application code
+COPY . /app
 
-# Command to run the binary
-CMD ["./code-detective"]
+# Build the application
+RUN cargo build --release
+
+# Run the application using dockerize to wait for Kafka
+ENTRYPOINT ["dockerize", "-wait", "tcp://kafka:9092", "-timeout", "60s", "./target/release/code-detective"]
 

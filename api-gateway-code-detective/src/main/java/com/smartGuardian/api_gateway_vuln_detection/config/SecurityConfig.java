@@ -20,6 +20,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers("/code-detective/**").authenticated()
+                        .pathMatchers("/code-detective-model/**").authenticated()
                         .anyExchange().authenticated()
                     
 

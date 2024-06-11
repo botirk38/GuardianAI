@@ -1,9 +1,0 @@
-
-services:
-  gateway:
-    environment:
-      SPRING_PROFILES_ACTIVE: staging
-  code-detective:
-    environment:
-      GRPC_SERVER_URL: "http://code-detective-model:50051"
-
