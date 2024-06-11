@@ -41,7 +41,7 @@ To build and run the services using Docker Compose, follow these steps:
 2. **Build and run the containers:**
 
      ```bash
-    docker-compose -f docker-compose.yml build
+    docker-compose -f docker-compose.yml up  --build
 
     ```
 
