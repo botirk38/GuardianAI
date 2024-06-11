@@ -55,13 +55,15 @@ The service consists of three main components:
 ### Running the Service
 1. **Start the WebSocket Server and Kafka Consumer**
    ```sh
-   python main.py
+   python3 main.py
    ```
 
 ### Client Connection
 Clients can connect to the WebSocket server using the following URL format:
 ```
-ws://localhost:8000/ws/{client_id}
+ws://0.0.0.0:8000/ws/{client_id}
+
+
 ```
 
 Replace `{client_id}` with a unique identifier for each client.

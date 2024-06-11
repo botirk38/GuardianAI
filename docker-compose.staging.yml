@@ -1,6 +1,0 @@
-
-services:
-  gateway:
-    environment:
-      SPRING_PROFILES_ACTIVE: staging
-

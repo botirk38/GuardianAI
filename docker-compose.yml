@@ -1,38 +1,4 @@
-
 services:
-  gateway:
-    build:
-      context: ./api-gateway-code-detective
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - code-detective
-      - code-detective-model
-      - redis
-      - kafka
-    environment:
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-
-  code-detective:
-    build:
-      context: ./code-detective
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
-    depends_on:
-      - code-detective-model
-
-  code-detective-model:
-    build:
-      context: ./code-detective-model
-      dockerfile: Dockerfile 
-    ports:
-      - "50051:50051"
-    environment:
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-
   redis:
     image: redis:latest
     ports:
@@ -57,4 +23,49 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "kafka:9092", "--list"]
+      interval: 30s
+      timeout: 10s
+      retries: 50
+
+  gateway:
+    build:
+      context: ./api-gateway-code-detective
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - code-detective
+      - code-detective-model
+      - redis
+      - kafka
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_PROFILES_ACTIVE: staging
+
+  code-detective:
+    build:
+      context: ./code-detective
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      KAFKA_ADDR: kafka:9092
+    depends_on:
+      - code-detective-model
+      - kafka
+
+  code-detective-model:
+    build:
+      context: ./code-detective-model
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      KAFKA_ADDR: kafka:9092
+    depends_on:
+      - kafka
 

@@ -1,7 +1,8 @@
 from aiokafka import AIOKafkaConsumer
 import json
-import openai  # Ensure you have your OpenAI API key configured
+import openai
 from websocket_server import send_message
+import os
 
 
 def detect_vulnerabilities(code_features):
@@ -50,9 +51,11 @@ def detect_vulnerabilities(code_features):
 
 
 async def consume():
+    bootstrap_servers = os.getenv("KAFKA_ADDR", "localhost:9092")
+
     consumer = AIOKafkaConsumer(
         'code-analysis-requests',
-        bootstrap_servers='localhost:9092',
+        bootstrap_servers=bootstrap_servers,
         group_id="analysis-group"
     )
     await consumer.start()
