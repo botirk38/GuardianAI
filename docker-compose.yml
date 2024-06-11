@@ -10,6 +10,7 @@ services:
       - code-detective
       - code-detective-model
       - redis
+      - kafka
     environment:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
@@ -20,8 +21,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
-    environment:
-      GRPC_SERVER_URL: "http://[::1]:50051"
     depends_on:
       - code-detective-model
 
@@ -38,3 +37,24 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+

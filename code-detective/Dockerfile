@@ -3,10 +3,10 @@ FROM rust:latest as builder
 
 # Install dependencies required for protobuf and gRPC
 RUN apt-get update && \
-    apt-get install -y \
-    protobuf-compiler \
-    libprotobuf-dev \
-    && rm -rf /var/lib/apt/lists/*
+  apt-get install -y \
+  protobuf-compiler \
+  libprotobuf-dev \
+  && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory inside the container
 WORKDIR /usr/src
@@ -30,7 +30,7 @@ WORKDIR /usr/local/bin
 COPY --from=builder /usr/src/target/release/code-detective .
 
 # Expose the port on which the gRPC service will run
-EXPOSE 50051
+EXPOSE 8081
 
 # Command to run the binary
 CMD ["./code-detective"]

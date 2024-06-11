@@ -15,4 +15,4 @@ EXPOSE 50051
 
 
 # Run the application
-CMD ["python", "open_ai_service_server.py"]
+CMD ["python", "main.py"]
