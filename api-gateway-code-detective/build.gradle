@@ -20,15 +20,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        implementation 'org.springframework.boot:spring-boot-starter-websocket'
-implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-
     implementation 'com.okta.spring:okta-spring-boot-starter:3.0.5'
-        implementation 'io.netty:netty-resolver-dns-native-macos:4.1.110.Final'
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.110.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
-        	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
 
 
 
