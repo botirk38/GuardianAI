@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { WebSocket } from "ws";
 
 // Use environment variables for sensitive information
 const AUTH0_DOMAIN =
@@ -23,6 +24,16 @@ interface VulnerableSnippet {
     code: string;
     description: string;
     fixes: string;
+}
+
+interface Vulnerabilities {
+
+  snippets: VulnerableSnippet[];  
+}
+
+interface AnalyzeResponse {
+    request_id: string;
+    vulnerabilities: Vulnerabilities;
 }
 
 export async function authenticate(
@@ -126,12 +137,14 @@ export async function callApiWithSelectedText(
         vscode.window.showErrorMessage("Failed to authenticate API");
         return;
     }
+    const requestId = uuidv4();
+    
 
     let response;
     try {
         response = await axios.post(
             "http://localhost:8080/code-detective/analyze_code",
-            { code: selectedText },
+            { code: selectedText, request_id: requestId },
             { headers: { Authorization: `Bearer ${api_auth_token}` } }
         );
         console.log("API response", response.data);
@@ -142,8 +155,40 @@ export async function callApiWithSelectedText(
         return;
     }
 
-    let data = response.data;
-    let vulnerableSnippets: VulnerableSnippet[] = data.snippets;
+    const ws = new WebSocket(
+        `ws://localhost:8080/code-detective-model/ws/${requestId}`
+    );
+
+    ws.on("open", () => {
+        console.log("Connected to server");
+
+        ws.send("Hello, server!");
+    });
+
+    ws.on("message", (data: string) => {
+        try {
+            console.log("Received message from server:", data);
+            const message: AnalyzeResponse = JSON.parse(data.toString());
+            handleVulnerabilityData(message);
+        } catch (error) {
+            console.error("Failed to parse WebSocket message:", data, error);
+        }
+
+        ws.close();
+    });
+
+    ws.on("close", () => {
+        console.log("Disconnected from server");
+    });
+
+    ws.on("error", (error) => {
+        console.error("WebSocket error:", error);
+    });
+}
+
+function handleVulnerabilityData(data: AnalyzeResponse) {
+    let vulnerableSnippets: VulnerableSnippet[] = data.vulnerabilities.snippets;
+    console.log("Vulnerable snippets", vulnerableSnippets);
     let activeEditor = vscode.window.activeTextEditor;
     if (activeEditor) {
         let doc = activeEditor.document;
@@ -260,27 +305,22 @@ function registerCodeActionsProvider(
                                 document.uri,
                                 snippetRange,
                                 snippet.fixes
-                            );        
+                            );
 
                             action.command = {
-                              command: "smartguardian.fixAndFormat",
-                              title: "Fix and Format",
-                              arguments: [document.uri, snippetRange],
-                          };
+                                command: "smartguardian.fixAndFormat",
+                                title: "Fix and Format",
+                                arguments: [document.uri, snippetRange],
+                            };
 
                             codeActions.push(action);
-
                         }
                     }
                 }
                 return codeActions;
             },
         }
-
-
     );
-
-
 }
 
 function removeDecoration(range: vscode.Range): void {
@@ -354,14 +394,18 @@ export function activate(context: vscode.ExtensionContext): void {
         )
     );
 
-   
-
     context.subscriptions.push(
-      vscode.commands.registerCommand("smartguardian.fixAndFormat", async (uri: vscode.Uri, range: vscode.Range) => {
-          await vscode.commands.executeCommand("editor.action.formatDocument", uri);
-          removeDecoration(range);
-      })
-  );
+        vscode.commands.registerCommand(
+            "smartguardian.fixAndFormat",
+            async (uri: vscode.Uri, range: vscode.Range) => {
+                await vscode.commands.executeCommand(
+                    "editor.action.formatDocument",
+                    uri
+                );
+                removeDecoration(range);
+            }
+        )
+    );
 
     // Initialize status bar item
     context.secrets.get("auth_token").then((token) => {
