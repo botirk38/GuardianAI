@@ -34,3 +34,7 @@ wheels/
 .installed.cfg
 *.egg
 
+
+# Ignore Terraform directories
+terraform-setup/.terraform/
+

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "api-gateway-code-detective.fullname" . }}-test-connection"
+  labels:
+    {{- include "api-gateway-code-detective.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "api-gateway-code-detective.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
