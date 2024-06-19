@@ -2,9 +2,6 @@ import * as vscode from "vscode";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { WebSocket } from "ws";
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 // Use environment variables for sensitive information
 const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
@@ -25,13 +22,12 @@ interface VulnerableSnippet {
 }
 
 interface Vulnerabilities {
-
   snippets: VulnerableSnippet[];
 }
 
 interface AnalyzeResponse {
   request_id: string;
-  vulnerabilities: Vulnerabilities;
+  vulnerabilities: string;
 }
 
 export async function authenticate(
@@ -138,12 +134,10 @@ export async function callApiWithSelectedText(
   }
   const requestId = uuidv4();
 
-
-  let response;
   try {
-    response = await axios.post(
+    const response = await axios.post(
       "http://localhost:8080/code-detective/analyze_code",
-      { code: selectedText, request_id: requestId },
+      { code: selectedText, request_id: "59fd7ffa-96f9-4043-b4ea-cb1293e39314" },
       { headers: { Authorization: `Bearer ${api_auth_token}` } }
     );
     console.log("API response", response.data);
@@ -155,17 +149,23 @@ export async function callApiWithSelectedText(
   }
 
   const ws = new WebSocket(
-    `ws://localhost:8080/code-detective-model/ws/${requestId}`
+    `ws://localhost:8080/code-detective-model/ws/59fd7ffa-96f9-4043-b4ea-cb1293e39314`
   );
 
   ws.on("open", () => {
     console.log("Connected to server");
-
+    ws.send('Hello Server!');
   });
 
-  ws.on("message", (data: AnalyzeResponse) => {
+  ws.on('message', (message) => {
+    console.log('received: %s', message);
+  });
+
+  ws.on("message", (data: any) => {
     try {
-      console.log("Received message from server:", data);
+      console.log("Received message from server:", data.toString());
+      const message = JSON.parse(data.toString());
+      handleVulnerabilityData(message);
     } catch (error) {
       console.error("Failed to parse WebSocket message:", data, error);
     }
@@ -178,12 +178,25 @@ export async function callApiWithSelectedText(
   });
 
   ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
+    console.error('WebSocket error:', error);
   });
 }
 
 function handleVulnerabilityData(data: AnalyzeResponse) {
-  let vulnerableSnippets: VulnerableSnippet[] = data.vulnerabilities.snippets;
+  console.log("Vulnerabilities", data.vulnerabilities);
+  let vulnerabilities: Vulnerabilities;
+  try {
+    vulnerabilities = JSON.parse(data.vulnerabilities);
+  } catch (e) {
+    console.error(
+      "Failed to parse vulnerabilities:",
+      data.vulnerabilities,
+      e
+    );
+    return;
+  }
+
+  let vulnerableSnippets: VulnerableSnippet[] = vulnerabilities.snippets;
   console.log("Vulnerable snippets", vulnerableSnippets);
   let activeEditor = vscode.window.activeTextEditor;
   if (activeEditor) {
