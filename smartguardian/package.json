@@ -69,6 +69,7 @@
   "dependencies": {
     "axios": "^1.7.2",
     "bufferutil": "^4.0.8",
+    "dotenv": "^16.4.5",
     "sinon": "^18.0.0",
     "utf-8-validate": "^6.0.4",
     "uuid": "^9.0.1",

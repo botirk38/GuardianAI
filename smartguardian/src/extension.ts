@@ -2,11 +2,14 @@ import * as vscode from "vscode";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { WebSocket } from "ws";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Use environment variables for sensitive information
-const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN
-const CLIENT_ID = process.env.CLIENT_ID
-const CLIENT_SECRET = process.env.CLIENT_SECRET
+const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const CALLBACK_URI = process.env.CALLBACK_URI;
 
 let statusBarItem: vscode.StatusBarItem;
@@ -116,6 +119,7 @@ export async function callApiWithSelectedText(
 
   let api_auth_token: string;
   try {
+    console.log("Domain", AUTH0_DOMAIN, "Client ID", CLIENT_ID, "Client Secret", CLIENT_SECRET);
     const api_auth_response = await axios.post(
       `https://${AUTH0_DOMAIN}/oauth/token`,
       {
@@ -157,14 +161,11 @@ export async function callApiWithSelectedText(
   ws.on("open", () => {
     console.log("Connected to server");
 
-    ws.send("Hello, server!");
   });
 
-  ws.on("message", (data: string) => {
+  ws.on("message", (data: AnalyzeResponse) => {
     try {
       console.log("Received message from server:", data);
-      const message: AnalyzeResponse = JSON.parse(data.toString());
-      handleVulnerabilityData(message);
     } catch (error) {
       console.error("Failed to parse WebSocket message:", data, error);
     }

@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "extensionHost",
+        "request": "launch",
+        "name": "Launch Extension",
+        "runtimeExecutable": "${execPath}",
+        "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+        "env": {
+          "AUTH0_DOMAIN": "dev-az3di7fabdoc8vlz.uk.auth0.com",
+          "CLIENT_ID": "BBVCZqG7W4JzbFlhpZDNeRVwV4W2PdPq",
+          "CLIENT_SECRET": "5XtekSVFh634T-e65llkg7RcZW4jQwaPsFvC9pMo053wKB2nVtfs2PusPp3B6lKS",
+          "CALLBACK_URI": "vscode://smart-guardian.safeContracts/callback"
+        }
+      }
+    ]
+  }
